@@ -18,6 +18,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
     private var stick: Bitmap
+    private var percent: Float
 
     private val stickPath = Path()
 
@@ -34,6 +35,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             attributeSet, R.styleable.score_indicator, 0, 0
         ).apply {
             try {
+                percent = getFloat(R.styleable.score_indicator_score_percent, 0.0F)
                 paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
                 stickPaint.color = getColor(R.styleable.score_indicator_stick_color, Color.BLACK)
                 textPaint.apply {
@@ -52,7 +54,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         }
         grayPaint.apply {
-            color = Color.LTGRAY
+            color = Color.parseColor("#E0E0E0")
             style = Paint.Style.STROKE
             strokeWidth = 10f
         }
@@ -146,7 +148,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        // Draw the segments
+        //mark Draw the segments
         val segmentAngle = 180f / -5f
         for (i in 0 until 5) {
             paint.color = segmentColors[i]
@@ -155,13 +157,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 centerY - outerMostRadius + 13f / 2f,
                 centerX + outerMostRadius - 13f / 2f,
                 centerY + outerMostRadius - 13f / 2f,
-                i * segmentAngle ,
+                i * segmentAngle,
                 segmentAngle,
                 false,
                 paint
             )
         }
-
 
         //GOOD text
         canvas?.drawText(
@@ -202,7 +203,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         stickPath.apply {
             moveTo(centerX + 10, centerY - 10)
             lineTo(centerX + innerMostRadius, centerY - 10)
-            arcTo(centerX + innerMostRadius, centerY - 20, centerX + 20 + innerMostRadius, centerY - 10, 90F, -180F, false)
+            arcTo(
+                centerX + innerMostRadius,
+                centerY - 20,
+                centerX + 20 + innerMostRadius,
+                centerY - 10,
+                90F,
+                -180F,
+                false
+            )
             lineTo(centerX + 10, centerY - 30)
         }
 
