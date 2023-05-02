@@ -14,11 +14,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     var blackPaint = Paint()
     var stickPaint = Paint()
     var textPaint = Paint()
-    private var stickRectF = RectF()
 
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
     private var stick: Bitmap
+
+    private val stickPath = Path()
 
     private var segmentColors: IntArray = intArrayOf(
         Color.BLUE,
@@ -154,7 +155,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 centerY - outerMostRadius + 13f / 2f,
                 centerX + outerMostRadius - 13f / 2f,
                 centerY + outerMostRadius - 13f / 2f,
-                i * segmentAngle,
+                i * segmentAngle ,
                 segmentAngle,
                 false,
                 paint
@@ -194,15 +195,18 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             null
         )
 
+        //indicator circle
         canvas?.drawCircle(centerX, centerY - 20f, 20f, stickPaint)
 
-        stickRectF.left = centerX - 10f
-        stickRectF.top = centerY - 30f
-        stickRectF.right = centerX + innerMostRadius + 50f
-        stickRectF.bottom = centerY - 10f
+        //stick path
+        stickPath.apply {
+            moveTo(centerX + 10, centerY - 10)
+            lineTo(centerX + innerMostRadius, centerY - 10)
+            arcTo(centerX + innerMostRadius, centerY - 20, centerX + 20 + innerMostRadius, centerY - 10, 90F, -180F, false)
+            lineTo(centerX + 10, centerY - 30)
+        }
 
-        val radius = 10f
-        canvas?.drawRoundRect(stickRectF, radius, radius, stickPaint)
+        canvas?.drawPath(stickPath, stickPaint)
 
     }
 
