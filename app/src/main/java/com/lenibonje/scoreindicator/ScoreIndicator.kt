@@ -1,22 +1,21 @@
 package com.lenibonje.scoreindicator
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import java.lang.Integer.min
+
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
     var paint = Paint()
+    var grayPaint = Paint()
+    var blackPaint = Paint()
 
-//    private lateinit var bigDollar: Bitmap
-//    private val smallDollar: Bitmap
-//    private val stick: Bitmap
+    private var bigDollar: Bitmap
+    private var smallDollar: Bitmap
+    private var stick: Bitmap
 
     init {
         context.theme.obtainStyledAttributes(
@@ -24,15 +23,29 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         ).apply {
             try {
                 paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
-            }finally {
+            } finally {
                 recycle()
             }
 
         }
+        grayPaint.apply {
+            color = Color.LTGRAY
+            style = Paint.Style.STROKE
+            strokeWidth = 10f
+        }
 
-//        bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
-//        smallDollar = BitmapFactory.decodeResource(resources, R.drawable.free_money)
-//        stick = BitmapFactory.decodeResource(resources, R.drawable.stick)
+        blackPaint.apply {
+            color = Color.BLACK
+            style = Paint.Style.STROKE
+            strokeWidth = 2f
+        }
+
+        bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
+        bigDollar = Bitmap.createScaledBitmap(bigDollar, 100, 100, false)
+        smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
+        smallDollar = Bitmap.createScaledBitmap(smallDollar, 70, 70, false)
+        stick = BitmapFactory.decodeResource(resources, R.drawable.stick)
+//        stick = Bitmap.createScaledBitmap(stick, 90, 200, false)
 
     }
 
@@ -41,11 +54,43 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         val centerX = width / 2f
         val centerY = height / 2f
-        val radius = 90f
+        val outerMostRadius = min(width, height) / 4f
+        val innerMostRadius = outerMostRadius - 100f
 
-        canvas?.drawCircle(centerX, centerY, radius, paint)
+        //method requires api level 21
+        canvas?.drawArc(
+            centerX - outerMostRadius,
+            centerY - outerMostRadius,
+            centerX + outerMostRadius,
+            centerY + outerMostRadius,
+            0f,
+            -180f,
+            false,
+            grayPaint)
 
-//        canvas?.drawBitmap(smallDollar, width - 10f, height - 10f, null)
+        canvas?.drawArc(
+            centerX - outerMostRadius ,
+            centerY - outerMostRadius ,
+            centerX + outerMostRadius ,
+            centerY + outerMostRadius ,
+            0f,
+            -180f,
+            false,
+            blackPaint)
+
+        canvas?.drawArc(
+            centerX - innerMostRadius,
+            centerY - innerMostRadius,
+            centerX + innerMostRadius,
+            centerY + innerMostRadius,
+            0f,
+            -180f,
+            false,
+            grayPaint)
+
+        canvas?.drawBitmap(smallDollar, centerX + outerMostRadius, centerY - outerMostRadius, null)
+        canvas?.drawBitmap(bigDollar, centerX + outerMostRadius, centerY + 60f, null)
+        canvas?.drawBitmap(stick, centerX, centerY, null)
     }
 
 }
