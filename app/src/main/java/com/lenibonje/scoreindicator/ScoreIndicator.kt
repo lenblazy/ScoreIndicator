@@ -95,9 +95,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         canvas?.drawLine(
             centerX + outerMostRadius,
-            centerY - innerMostRadius,
+            centerY ,
             centerX + innerMostRadius,
-            centerY - innerMostRadius,
+            centerY,
             blackPaint
         )
 
@@ -145,14 +145,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         val radius = 10f
         canvas?.drawRoundRect(stickRectF, radius, radius, stickPaint)
-
-        val left = 50f
-        val top = 50f
-        val right = 250f
-        val bottom = 100f
-
-        val rect = RectF(left, top, right - 50f, bottom)
-        canvas?.drawRoundRect(rect, radius, radius, paint)
 
     }
 
