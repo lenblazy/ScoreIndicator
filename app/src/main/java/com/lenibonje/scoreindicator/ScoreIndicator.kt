@@ -37,7 +37,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         blackPaint.apply {
             color = Color.BLACK
             style = Paint.Style.STROKE
-            strokeWidth = 1f
+            strokeWidth = 3f
         }
 
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
@@ -66,17 +66,29 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             0f,
             -180f,
             false,
-            grayPaint)
+            grayPaint
+        )
 
         canvas?.drawArc(
             centerX - outerMostRadius + 6f,
             centerY - outerMostRadius + 6f,
             centerX + outerMostRadius - 6f,
-            centerY + outerMostRadius -6f,
+            centerY + outerMostRadius - 6f,
             0f,
             -180f,
             false,
-            blackPaint)
+            blackPaint
+        )
+
+        val lineY = centerY + innerMostRadius
+//        (float startX, float startY, float stopX, float stopY, @NonNull Paint paint)
+        canvas?.drawLine(
+            centerX - outerMostRadius,
+            lineY,
+            centerX - innerMostRadius,
+            lineY,
+            blackPaint
+        )
 
         canvas?.drawArc(
             centerX - innerMostRadius,
@@ -86,17 +98,19 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             0f,
             -180f,
             false,
-            grayPaint)
+            grayPaint
+        )
 
         canvas?.drawArc(
-            centerX - innerMostRadius - 6f ,
+            centerX - innerMostRadius - 6f,
             centerY - innerMostRadius - 6f,
             centerX + innerMostRadius + 6f,
             centerY + innerMostRadius + 6f,
             0f,
             -180f,
             false,
-            blackPaint)
+            blackPaint
+        )
 
         canvas?.drawBitmap(smallDollar, centerX + outerMostRadius, centerY - outerMostRadius, null)
         canvas?.drawBitmap(bigDollar, centerX + outerMostRadius, centerY + 60f, null)
