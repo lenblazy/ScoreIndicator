@@ -4,5 +4,6 @@
         <attr name="good_score" format="color" />
         <attr name="bad_score" format="color" />
         <attr name="stick_color" format="color" />
+        <attr name="text_color" format="color" />
     </declare-styleable>
 </resources>

@@ -13,6 +13,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     var grayPaint = Paint()
     var blackPaint = Paint()
     var stickPaint = Paint()
+    var textPaint = Paint()
     private var stickRectF = RectF()
 
     private var bigDollar: Bitmap
@@ -26,6 +27,14 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             try {
                 paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
                 stickPaint.color = getColor(R.styleable.score_indicator_stick_color, Color.BLACK)
+                textPaint.apply {
+                    color = getColor(R.styleable.score_indicator_text_color, Color.WHITE)
+                    textSize = 25f
+                    isFakeBoldText = true
+                    setShadowLayer(5f, 5f,
+                        5f, Color.BLACK)
+                }
+
             } finally {
                 recycle()
             }
@@ -48,7 +57,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar = Bitmap.createScaledBitmap(smallDollar, 70, 70, false)
         stick = BitmapFactory.decodeResource(resources, R.drawable.stick)
-//        stick = Bitmap.createScaledBitmap(stick, 90, 200, false)
 
     }
 
@@ -85,6 +93,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
+        //left bottom line
         canvas?.drawLine(
             centerX - outerMostRadius + 5,
             centerY,
@@ -93,6 +102,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
+        //right bottom line
         canvas?.drawLine(
             centerX + outerMostRadius - 5,
             centerY ,
@@ -101,6 +111,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
+        //inner shadow
         canvas?.drawArc(
             centerX - innerMostRadius,
             centerY - innerMostRadius,
@@ -112,6 +123,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             grayPaint
         )
 
+        //inner arc
         canvas?.drawArc(
             centerX - innerMostRadius - 6f,
             centerY - innerMostRadius - 6f,
@@ -123,12 +135,32 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
+
+        //GOOD text
+        canvas?.drawText(
+            "GOOD",
+            centerX + innerMostRadius + 20f,
+            centerY - 20f,
+            textPaint
+        )
+
+        //Bad text
+        canvas?.drawText(
+            "POOR",
+            centerX - outerMostRadius + 20f,
+            centerY - 20f,
+            textPaint
+        )
+
+        //smaller dollar
         canvas?.drawBitmap(
             smallDollar,
             centerX + outerMostRadius - 40f,
             centerY - outerMostRadius,
             null
         )
+
+        //bigger dollar
         canvas?.drawBitmap(
             bigDollar,
             centerX + outerMostRadius + 30f,
