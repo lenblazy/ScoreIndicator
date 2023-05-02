@@ -20,6 +20,14 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var smallDollar: Bitmap
     private var stick: Bitmap
 
+    private var segmentColors: IntArray = intArrayOf(
+        Color.BLUE,
+        Color.RED,
+        Color.GREEN,
+        Color.YELLOW,
+        Color.CYAN
+    )
+
     init {
         context.theme.obtainStyledAttributes(
             attributeSet, R.styleable.score_indicator, 0, 0
@@ -31,8 +39,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                     color = getColor(R.styleable.score_indicator_text_color, Color.WHITE)
                     textSize = 25f
                     isFakeBoldText = true
-                    setShadowLayer(5f, 5f,
-                        5f, Color.BLACK)
+                    setShadowLayer(
+                        5f, 5f,
+                        5f, Color.BLACK
+                    )
                 }
 
             } finally {
@@ -105,7 +115,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         //right bottom line
         canvas?.drawLine(
             centerX + outerMostRadius - 5,
-            centerY ,
+            centerY,
             centerX + innerMostRadius + 5,
             centerY,
             blackPaint
@@ -134,6 +144,22 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             false,
             blackPaint
         )
+
+        // Draw the segments
+        val segmentAngle = 180f / -5f
+        for (i in 0 until 5) {
+            paint.color = segmentColors[i]
+            canvas?.drawArc(
+                centerX - outerMostRadius + 13f / 2f,
+                centerY - outerMostRadius + 13f / 2f,
+                centerX + outerMostRadius - 13f / 2f,
+                centerY + outerMostRadius - 13f / 2f,
+                i * segmentAngle,
+                segmentAngle,
+                false,
+                paint
+            )
+        }
 
 
         //GOOD text
