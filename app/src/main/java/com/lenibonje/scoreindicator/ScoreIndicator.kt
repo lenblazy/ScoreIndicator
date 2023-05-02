@@ -12,6 +12,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     var paint = Paint()
     var grayPaint = Paint()
     var blackPaint = Paint()
+    var stickPaint = Paint()
+    private var stickRectF = RectF()
 
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
@@ -23,6 +25,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         ).apply {
             try {
                 paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
+                stickPaint.color = getColor(R.styleable.score_indicator_stick_color, Color.BLACK)
             } finally {
                 recycle()
             }
@@ -58,6 +61,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         val innerMostRadius = outerMostRadius - 100f
 
         //method requires api level 21
+        //outer shadow
         canvas?.drawArc(
             centerX - outerMostRadius,
             centerY - outerMostRadius,
@@ -69,6 +73,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             grayPaint
         )
 
+        //outer arc
         canvas?.drawArc(
             centerX - outerMostRadius + 6f,
             centerY - outerMostRadius + 6f,
@@ -118,8 +123,37 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        canvas?.drawBitmap(smallDollar, centerX + outerMostRadius - 40f, centerY - outerMostRadius, null)
-        canvas?.drawBitmap(bigDollar, centerX + outerMostRadius + 30f, centerY - outerMostRadius + 120f, null)
+        canvas?.drawBitmap(
+            smallDollar,
+            centerX + outerMostRadius - 40f,
+            centerY - outerMostRadius,
+            null
+        )
+        canvas?.drawBitmap(
+            bigDollar,
+            centerX + outerMostRadius + 30f,
+            centerY - outerMostRadius + 120f,
+            null
+        )
+
+        canvas?.drawCircle(centerX, centerY - 20f, 20f, stickPaint)
+
+        stickRectF.left = centerX - 10f
+        stickRectF.top = centerY - 30f
+        stickRectF.right = centerX + innerMostRadius + 50f
+        stickRectF.bottom = centerY - 10f
+
+        val radius = 10f
+        canvas?.drawRoundRect(stickRectF, radius, radius, stickPaint)
+
+        val left = 50f
+        val top = 50f
+        val right = 250f
+        val bottom = 100f
+
+        val rect = RectF(left, top, right - 50f, bottom)
+        canvas?.drawRoundRect(rect, radius, radius, paint)
+
     }
 
 }
