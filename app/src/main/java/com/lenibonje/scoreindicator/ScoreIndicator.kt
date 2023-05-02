@@ -40,7 +40,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         blackPaint.apply {
             color = Color.BLACK
             style = Paint.Style.STROKE
-            strokeWidth = 3f
+            strokeWidth = 2f
         }
 
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
@@ -86,17 +86,17 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         )
 
         canvas?.drawLine(
-            centerX - outerMostRadius,
+            centerX - outerMostRadius + 5,
             centerY,
-            centerX - innerMostRadius,
+            centerX - innerMostRadius - 5,
             centerY,
             blackPaint
         )
 
         canvas?.drawLine(
-            centerX + outerMostRadius,
+            centerX + outerMostRadius - 5,
             centerY ,
-            centerX + innerMostRadius,
+            centerX + innerMostRadius + 5,
             centerY,
             blackPaint
         )
