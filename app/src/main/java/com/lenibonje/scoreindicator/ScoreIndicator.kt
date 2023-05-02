@@ -87,9 +87,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         canvas?.drawLine(
             centerX - outerMostRadius,
-            centerY + innerMostRadius,
+            centerY,
             centerX - innerMostRadius,
-            centerY + innerMostRadius,
+            centerY,
             blackPaint
         )
 
