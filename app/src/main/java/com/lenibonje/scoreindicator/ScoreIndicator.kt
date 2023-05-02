@@ -80,13 +80,19 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        val lineY = centerY + innerMostRadius
-//        (float startX, float startY, float stopX, float stopY, @NonNull Paint paint)
         canvas?.drawLine(
             centerX - outerMostRadius,
-            lineY,
+            centerY + innerMostRadius,
             centerX - innerMostRadius,
-            lineY,
+            centerY + innerMostRadius,
+            blackPaint
+        )
+
+        canvas?.drawLine(
+            centerX + outerMostRadius,
+            centerY - innerMostRadius,
+            centerX + innerMostRadius,
+            centerY - innerMostRadius,
             blackPaint
         )
 
@@ -112,9 +118,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        canvas?.drawBitmap(smallDollar, centerX + outerMostRadius, centerY - outerMostRadius, null)
-        canvas?.drawBitmap(bigDollar, centerX + outerMostRadius, centerY + 60f, null)
-        canvas?.drawBitmap(stick, centerX, centerY, null)
+        canvas?.drawBitmap(smallDollar, centerX + outerMostRadius - 40f, centerY - outerMostRadius, null)
+        canvas?.drawBitmap(bigDollar, centerX + outerMostRadius + 30f, centerY - outerMostRadius + 120f, null)
     }
 
 }
