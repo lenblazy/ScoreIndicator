@@ -216,20 +216,28 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         //stick path
         stickPath.apply {
             moveTo(centerX + 10, centerY - 10)
-            lineTo(centerX + innerMostRadius, centerY - 10)
+            lineTo(centerX - innerMostRadius - 30, centerY - 10)
             arcTo(
-                centerX + innerMostRadius,
+                centerX - innerMostRadius - 50,
                 centerY - 20,
-                centerX + 20 + innerMostRadius,
+                centerX - innerMostRadius - 30,
                 centerY - 10,
                 90F,
-                -180F,
+                180F,
                 false
             )
             lineTo(centerX + 10, centerY - 30)
         }
 
+        // Save the current canvas state
+//        canvas?.save()
+//
+//        // Set the pivot point for rotation
+//        canvas?.rotate(180f, centerX, centerX)
+
         canvas?.drawPath(stickPath, stickPaint)
+
+//        canvas?.restore()
 
     }
 
