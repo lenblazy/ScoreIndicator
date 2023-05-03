@@ -8,4 +8,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 - Initialized this project.
 - Updated ReadMe and ChangeLog files.
-- Created score indicator with no interactivity.
+- Score indicator can receive a score of 0-180 and animate progress.
