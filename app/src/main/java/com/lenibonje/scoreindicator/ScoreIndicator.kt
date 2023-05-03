@@ -230,14 +230,14 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         }
 
         // Save the current canvas state
-//        canvas?.save()
-//
+        canvas?.save()
+
 //        // Set the pivot point for rotation
-//        canvas?.rotate(180f, centerX, centerX)
+        canvas?.rotate(90f, centerX, centerY - 20f)
 
         canvas?.drawPath(stickPath, stickPaint)
 
-//        canvas?.restore()
+        canvas?.restore()
 
     }
 
