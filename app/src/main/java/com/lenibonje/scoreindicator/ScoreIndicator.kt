@@ -24,11 +24,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private val stickPath = Path()
 
     private var segmentColors: IntArray = intArrayOf(
-        Color.BLUE,
-        Color.RED,
-        Color.GREEN,
-        Color.YELLOW,
-        Color.CYAN
+        Color.parseColor("#092100"),
+        Color.parseColor("#225100"),
+        Color.parseColor("#58A229"),
+        Color.parseColor("#8CDA5B"),
+        Color.parseColor("#CEFFAB")
     )
 
     init {
@@ -80,7 +80,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         val centerX = width / 2f
         val centerY = height / 2f
-        val outerMostRadius = min(width, height) / 4f
+        val outerMostRadius = min(width, height) / 5f
         val innerMostRadius = outerMostRadius - 100f
 
         //method requires api level 21
