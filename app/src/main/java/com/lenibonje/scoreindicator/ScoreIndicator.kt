@@ -1,7 +1,13 @@
 package com.lenibonje.scoreindicator
 
+import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import java.lang.Integer.min
@@ -9,17 +15,21 @@ import java.lang.Integer.min
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
-    var paint = Paint()
-    var grayPaint = Paint()
-    var blackPaint = Paint()
-    var stickPaint = Paint()
-    var textPaint = Paint()
-    var colorlessPaint = Paint()
+    private var paint = Paint()
+    private var grayPaint = Paint()
+    private var blackPaint = Paint()
+    private var stickPaint = Paint()
+    private var textPaint = Paint()
+    private var colorlessPaint = Paint()
 
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
     private var stick: Bitmap
-    private var percent: Float
+
+    private var score = 0F
+    var percent: Float = 0F
+    var animateDuration: Int = 1000
+    var animate: Boolean = true
 
     private val stickPath = Path()
 
@@ -36,12 +46,16 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             attributeSet, R.styleable.score_indicator, 0, 0
         ).apply {
             try {
-                percent = getFloat(R.styleable.score_indicator_score_percent, 0.0F)
-                paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
-                stickPaint.color = getColor(R.styleable.score_indicator_stick_color, Color.BLACK)
+                animate = getBoolean(R.styleable.score_indicator_animate, true)
+                animateDuration = getInteger(R.styleable.score_indicator_animationDuration, 500)
+                score = getFloat(R.styleable.score_indicator_score, 0.0F)
+                if (animate) animateRotation(score, animateDuration.toLong())
+                else percent = score
+                paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
+                stickPaint.color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
                 colorlessPaint.color = Color.WHITE
                 textPaint.apply {
-                    color = getColor(R.styleable.score_indicator_text_color, Color.WHITE)
+                    color = getColor(R.styleable.score_indicator_textColor, Color.WHITE)
                     textSize = 25f
                     isFakeBoldText = true
                     setShadowLayer(
@@ -49,11 +63,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                         5f, Color.BLACK
                     )
                 }
-
             } finally {
                 recycle()
             }
-
         }
         grayPaint.apply {
             color = Color.parseColor("#E0E0E0")
@@ -168,10 +180,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         //colorless shadow
         canvas?.drawArc(
-            centerX - innerMostRadius +3f,
+            centerX - innerMostRadius + 3f,
             centerY - innerMostRadius + 3f,
-            centerX + innerMostRadius -3f,
-            centerY + innerMostRadius -3f,
+            centerX + innerMostRadius - 3f,
+            centerY + innerMostRadius - 3f,
             0f,
             -180f,
             true,
@@ -181,7 +193,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         //GOOD text
         canvas?.drawText(
             "GOOD",
-            centerX + innerMostRadius + 20f,
+            centerX + innerMostRadius + 10f,
             centerY - 20f,
             textPaint
         )
@@ -233,12 +245,22 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         canvas?.save()
 
 //        // Set the pivot point for rotation
-        canvas?.rotate(90f, centerX, centerY - 20f)
+        canvas?.rotate(percent, centerX, centerY - 20f)
 
         canvas?.drawPath(stickPath, stickPaint)
 
         canvas?.restore()
 
+    }
+
+    fun animateRotation(degrees: Float, duration: Long) {
+        val animator = ValueAnimator.ofFloat(percent, degrees)
+        animator.addUpdateListener { valueAnimator ->
+            percent = valueAnimator.animatedValue as Float
+            invalidate()
+        }
+        animator.duration = duration
+        animator.start()
     }
 
 }
