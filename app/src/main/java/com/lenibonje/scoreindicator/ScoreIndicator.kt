@@ -14,6 +14,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     var blackPaint = Paint()
     var stickPaint = Paint()
     var textPaint = Paint()
+    var colorlessPaint = Paint()
 
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
@@ -38,6 +39,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 percent = getFloat(R.styleable.score_indicator_score_percent, 0.0F)
                 paint.color = getColor(R.styleable.score_indicator_good_score, Color.GREEN)
                 stickPaint.color = getColor(R.styleable.score_indicator_stick_color, Color.BLACK)
+                colorlessPaint.color = Color.WHITE
                 textPaint.apply {
                     color = getColor(R.styleable.score_indicator_text_color, Color.WHITE)
                     textSize = 25f
@@ -124,6 +126,22 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
+        //mark Draw the segments
+        val segmentAngle = 180f / -5f
+        for (i in 0 until 5) {
+            paint.color = segmentColors[i]
+            canvas?.drawArc(
+                centerX - outerMostRadius + 13f / 2f,
+                centerY - outerMostRadius + 13f / 2f,
+                centerX + outerMostRadius - 13f / 2f,
+                centerY + outerMostRadius - 13f / 2f,
+                i * segmentAngle,
+                segmentAngle,
+                true,
+                paint
+            )
+        }
+
         //inner shadow
         canvas?.drawArc(
             centerX - innerMostRadius,
@@ -148,21 +166,17 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        //mark Draw the segments
-        val segmentAngle = 180f / -5f
-        for (i in 0 until 5) {
-            paint.color = segmentColors[i]
-            canvas?.drawArc(
-                centerX - outerMostRadius + 13f / 2f,
-                centerY - outerMostRadius + 13f / 2f,
-                centerX + outerMostRadius - 13f / 2f,
-                centerY + outerMostRadius - 13f / 2f,
-                i * segmentAngle,
-                segmentAngle,
-                false,
-                paint
-            )
-        }
+        //colorless shadow
+        canvas?.drawArc(
+            centerX - innerMostRadius +3f,
+            centerY - innerMostRadius + 3f,
+            centerX + innerMostRadius -3f,
+            centerY + innerMostRadius -3f,
+            0f,
+            -180f,
+            true,
+            colorlessPaint
+        )
 
         //GOOD text
         canvas?.drawText(
