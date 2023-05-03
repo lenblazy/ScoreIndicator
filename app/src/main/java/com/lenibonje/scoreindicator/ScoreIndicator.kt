@@ -24,7 +24,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private val stickPath = Path()
 
     private var segmentColors: IntArray = intArrayOf(
-        Color.parseColor("#092100"),
+        Color.parseColor("#153800"),
         Color.parseColor("#225100"),
         Color.parseColor("#58A229"),
         Color.parseColor("#8CDA5B"),
