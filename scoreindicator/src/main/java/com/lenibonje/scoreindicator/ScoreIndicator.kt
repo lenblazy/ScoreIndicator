@@ -24,7 +24,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
-    private var stick: Bitmap
 
     private var score = 0F
     var percent: Float = 0F
@@ -83,7 +82,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         bigDollar = Bitmap.createScaledBitmap(bigDollar, 100, 100, false)
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar = Bitmap.createScaledBitmap(smallDollar, 70, 70, false)
-        stick = BitmapFactory.decodeResource(resources, R.drawable.stick)
 
     }
 
