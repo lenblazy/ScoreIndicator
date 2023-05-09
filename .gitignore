@@ -32,3 +32,10 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Publish scripts
+scripts/*
+*/publish-remote.gradle
+
+# Images
+*.DS_Store
