@@ -11,6 +11,4 @@ object Constants {
     const val NEG_SEMI_CIRCLE = -180F
     const val GOOD_SCORE = "GOOD"
     const val BAD_SCORE = "BAD"
-
-
 }
