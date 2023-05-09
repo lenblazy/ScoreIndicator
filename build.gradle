@@ -1,10 +1,26 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    dependencies {
+        // Add jacoco report
+        classpath "org.jacoco:org.jacoco.core:0.8.8"
+
+    }
+    repositories {
+        mavenCentral()
+    }
+}
 plugins {
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
+}
+
+def getProps(path){
+    Properties props = new Properties()
+    props.load(new FileInputStream(file(path)))
+    return props
 }
 
 apply from: 'scripts/publish-root.gradle'
