@@ -12,6 +12,6 @@ You need to know how to:
 - Edit a layout in XML.
 
 ## Versioning and Changes
-Keep updated with the latest version as documented in the fucking [Changelog] file.
+Keep updated with the latest version as documented in the [Changelog] file.
 
 [Changelog]: https://github.com/lenblazy/ScoreIndicator/blob/main/CHANGELOG.md
