@@ -39,3 +39,7 @@ scripts/*
 
 # Images
 *.DS_Store
+
+# Sonarqube and detekt
+scoreindicator/config
+sonar-project.properties

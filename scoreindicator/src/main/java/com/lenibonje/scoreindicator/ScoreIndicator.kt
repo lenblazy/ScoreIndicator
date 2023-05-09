@@ -12,7 +12,6 @@ import android.util.AttributeSet
 import android.view.View
 import java.lang.Integer.min
 
-
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
     private var paint = Paint()
@@ -42,14 +41,20 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
     init {
         context.theme.obtainStyledAttributes(
-            attributeSet, R.styleable.score_indicator, 0, 0
+            attributeSet,
+            R.styleable.score_indicator,
+            0,
+            0
         ).apply {
             try {
                 animate = getBoolean(R.styleable.score_indicator_animate, true)
                 animateDuration = getInteger(R.styleable.score_indicator_animationDuration, 500)
                 score = getFloat(R.styleable.score_indicator_score, 0.0F)
-                if (animate) animateRotation(score, animateDuration.toLong())
-                else percent = score
+                if (animate) {
+                    animateRotation(score, animateDuration.toLong())
+                } else {
+                    percent = score
+                }
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
                 stickPaint.color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
                 colorlessPaint.color = Color.WHITE
@@ -58,8 +63,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                     textSize = 25f
                     isFakeBoldText = true
                     setShadowLayer(
-                        5f, 5f,
-                        5f, Color.BLACK
+                        5f,
+                        5f,
+                        5f,
+                        Color.BLACK
                     )
                 }
             } finally {
@@ -82,7 +89,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         bigDollar = Bitmap.createScaledBitmap(bigDollar, 100, 100, false)
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar = Bitmap.createScaledBitmap(smallDollar, 70, 70, false)
-
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -93,8 +99,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         val outerMostRadius = min(width, height) / 5f
         val innerMostRadius = outerMostRadius - 100f
 
-        //method requires api level 21
-        //outer shadow
+        // method requires api level 21
+        // outer shadow
         canvas?.drawArc(
             centerX - outerMostRadius,
             centerY - outerMostRadius,
@@ -106,7 +112,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             grayPaint
         )
 
-        //outer arc
+        // outer arc
         canvas?.drawArc(
             centerX - outerMostRadius + 6f,
             centerY - outerMostRadius + 6f,
@@ -118,7 +124,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        //left bottom line
+        // left bottom line
         canvas?.drawLine(
             centerX - outerMostRadius + 5,
             centerY,
@@ -127,7 +133,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        //right bottom line
+        // right bottom line
         canvas?.drawLine(
             centerX + outerMostRadius - 5,
             centerY,
@@ -136,7 +142,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        //mark Draw the segments
+        // mark Draw the segments
         val segmentAngle = 180f / -5f
         for (i in 0 until 5) {
             paint.color = segmentColors[i]
@@ -152,7 +158,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             )
         }
 
-        //inner shadow
+        // inner shadow
         canvas?.drawArc(
             centerX - innerMostRadius,
             centerY - innerMostRadius,
@@ -164,7 +170,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             grayPaint
         )
 
-        //inner arc
+        // inner arc
         canvas?.drawArc(
             centerX - innerMostRadius - 6f,
             centerY - innerMostRadius - 6f,
@@ -176,7 +182,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             blackPaint
         )
 
-        //colorless shadow
+        // colorless shadow
         canvas?.drawArc(
             centerX - innerMostRadius + 3f,
             centerY - innerMostRadius + 3f,
@@ -188,7 +194,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             colorlessPaint
         )
 
-        //GOOD text
+        // GOOD text
         canvas?.drawText(
             "GOOD",
             centerX + innerMostRadius + 10f,
@@ -196,7 +202,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             textPaint
         )
 
-        //Bad text
+        // Bad text
         canvas?.drawText(
             "POOR",
             centerX - outerMostRadius + 20f,
@@ -204,7 +210,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             textPaint
         )
 
-        //smaller dollar
+        // smaller dollar
         canvas?.drawBitmap(
             smallDollar,
             centerX + outerMostRadius - 40f,
@@ -212,7 +218,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             null
         )
 
-        //bigger dollar
+        // bigger dollar
         canvas?.drawBitmap(
             bigDollar,
             centerX + outerMostRadius + 30f,
@@ -220,10 +226,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             null
         )
 
-        //indicator circle
+        // indicator circle
         canvas?.drawCircle(centerX, centerY - 20f, 20f, stickPaint)
 
-        //stick path
+        // stick path
         stickPath.apply {
             moveTo(centerX + 10, centerY - 10)
             lineTo(centerX - innerMostRadius - 30, centerY - 10)
@@ -248,7 +254,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         canvas?.drawPath(stickPath, stickPaint)
 
         canvas?.restore()
-
     }
 
     fun animateRotation(degrees: Float, duration: Long) {
@@ -260,5 +265,4 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         animator.duration = duration
         animator.start()
     }
-
 }
