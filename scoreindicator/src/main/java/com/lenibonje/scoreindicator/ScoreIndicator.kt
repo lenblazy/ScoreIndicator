@@ -2,14 +2,18 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.lenibonje.scoreindicator.Constants.BAD_SCORE
+import com.lenibonje.scoreindicator.Constants.BIG_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.Constants.GOOD_SCORE
+import com.lenibonje.scoreindicator.Constants.NEG_SEMI_CIRCLE
+import com.lenibonje.scoreindicator.Constants.SMALL_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.Constants.STROKE_WIDTH
+import com.lenibonje.scoreindicator.Constants.TEXT_SHADOW_SIZE
+import com.lenibonje.scoreindicator.Constants.TEXT_SIZE
+import com.lenibonje.scoreindicator.Constants.ZERO
 import java.lang.Integer.min
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
@@ -24,9 +28,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
 
-    private var score = 0F
-    var percent: Float = 0F
-    var animateDuration: Int = 1000
+    private var score = Constants.ZERO
+    var percent: Float = Constants.ZERO
+    var animateDuration: Int = Constants.ANIMATION_DURATION
     var animate: Boolean = true
 
     private val stickPath = Path()
@@ -48,8 +52,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         ).apply {
             try {
                 animate = getBoolean(R.styleable.score_indicator_animate, true)
-                animateDuration = getInteger(R.styleable.score_indicator_animationDuration, 500)
-                score = getFloat(R.styleable.score_indicator_score, 0.0F)
+                animateDuration = getInteger(
+                    R.styleable.score_indicator_animationDuration,
+                    Constants.ANIMATION_DURATION
+                )
+                score = getFloat(R.styleable.score_indicator_score, Constants.ZERO)
                 if (animate) {
                     animateRotation(score, animateDuration.toLong())
                 } else {
@@ -60,12 +67,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 colorlessPaint.color = Color.WHITE
                 textPaint.apply {
                     color = getColor(R.styleable.score_indicator_textColor, Color.WHITE)
-                    textSize = 25f
+                    textSize = TEXT_SIZE
                     isFakeBoldText = true
                     setShadowLayer(
-                        5f,
-                        5f,
-                        5f,
+                        TEXT_SHADOW_SIZE,
+                        TEXT_SHADOW_SIZE,
+                        TEXT_SHADOW_SIZE,
                         Color.BLACK
                     )
                 }
@@ -76,7 +83,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         grayPaint.apply {
             color = Color.parseColor("#E0E0E0")
             style = Paint.Style.STROKE
-            strokeWidth = 10f
+            strokeWidth = STROKE_WIDTH
         }
 
         blackPaint.apply {
@@ -86,9 +93,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         }
 
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
-        bigDollar = Bitmap.createScaledBitmap(bigDollar, 100, 100, false)
+        bigDollar = Bitmap.createScaledBitmap(bigDollar, BIG_DOLLAR_SIZE, BIG_DOLLAR_SIZE, false)
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
-        smallDollar = Bitmap.createScaledBitmap(smallDollar, 70, 70, false)
+        smallDollar =
+            Bitmap.createScaledBitmap(smallDollar, SMALL_DOLLAR_SIZE, SMALL_DOLLAR_SIZE, false)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -106,8 +114,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             centerY - outerMostRadius,
             centerX + outerMostRadius,
             centerY + outerMostRadius,
-            0f,
-            -180f,
+            ZERO,
+            NEG_SEMI_CIRCLE,
             false,
             grayPaint
         )
@@ -118,8 +126,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             centerY - outerMostRadius + 6f,
             centerX + outerMostRadius - 6f,
             centerY + outerMostRadius - 6f,
-            0f,
-            -180f,
+            ZERO,
+            NEG_SEMI_CIRCLE,
             false,
             blackPaint
         )
@@ -164,8 +172,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             centerY - innerMostRadius,
             centerX + innerMostRadius,
             centerY + innerMostRadius,
-            0f,
-            -180f,
+            ZERO,
+            NEG_SEMI_CIRCLE,
             false,
             grayPaint
         )
@@ -176,8 +184,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             centerY - innerMostRadius - 6f,
             centerX + innerMostRadius + 6f,
             centerY + innerMostRadius + 6f,
-            0f,
-            -180f,
+            ZERO,
+            NEG_SEMI_CIRCLE,
             false,
             blackPaint
         )
@@ -188,15 +196,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             centerY - innerMostRadius + 3f,
             centerX + innerMostRadius - 3f,
             centerY + innerMostRadius - 3f,
-            0f,
-            -180f,
+            ZERO,
+            NEG_SEMI_CIRCLE,
             true,
             colorlessPaint
         )
 
         // GOOD text
         canvas?.drawText(
-            "GOOD",
+            GOOD_SCORE,
             centerX + innerMostRadius + 10f,
             centerY - 20f,
             textPaint
@@ -204,7 +212,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         // Bad text
         canvas?.drawText(
-            "POOR",
+            BAD_SCORE,
             centerX - outerMostRadius + 20f,
             centerY - 20f,
             textPaint
