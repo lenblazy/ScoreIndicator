@@ -9,6 +9,7 @@ object Constants {
     const val BIG_DOLLAR_SIZE = 100
     const val SMALL_DOLLAR_SIZE = 70
     const val NEG_SEMI_CIRCLE = -180F
+    const val NUM_OF_SEGMENTS = 5
     const val GOOD_SCORE = "GOOD"
     const val BAD_SCORE = "BAD"
 }

@@ -2,13 +2,18 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.lenibonje.scoreindicator.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.Constants.BIG_DOLLAR_SIZE
 import com.lenibonje.scoreindicator.Constants.GOOD_SCORE
-import com.lenibonje.scoreindicator.Constants.NEG_SEMI_CIRCLE
+import com.lenibonje.scoreindicator.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.Constants.SMALL_DOLLAR_SIZE
 import com.lenibonje.scoreindicator.Constants.STROKE_WIDTH
 import com.lenibonje.scoreindicator.Constants.TEXT_SHADOW_SIZE
@@ -28,8 +33,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var bigDollar: Bitmap
     private var smallDollar: Bitmap
 
-    private var score = Constants.ZERO
-    var percent: Float = Constants.ZERO
+    private var score = ZERO
+    var percent: Float = ZERO
     var animateDuration: Int = Constants.ANIMATION_DURATION
     var animate: Boolean = true
 
@@ -56,7 +61,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                     R.styleable.score_indicator_animationDuration,
                     Constants.ANIMATION_DURATION
                 )
-                score = getFloat(R.styleable.score_indicator_score, Constants.ZERO)
+                score = getFloat(R.styleable.score_indicator_score, ZERO)
                 if (animate) {
                     animateRotation(score, animateDuration.toLong())
                 } else {
@@ -101,167 +106,136 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
         val centerX = width / 2f
         val centerY = height / 2f
         val outerMostRadius = min(width, height) / 5f
         val innerMostRadius = outerMostRadius - 100f
 
         // method requires api level 21
-        // outer shadow
-        canvas?.drawArc(
-            centerX - outerMostRadius,
-            centerY - outerMostRadius,
-            centerX + outerMostRadius,
-            centerY + outerMostRadius,
-            ZERO,
-            NEG_SEMI_CIRCLE,
-            false,
-            grayPaint
-        )
-
-        // outer arc
-        canvas?.drawArc(
-            centerX - outerMostRadius + 6f,
-            centerY - outerMostRadius + 6f,
-            centerX + outerMostRadius - 6f,
-            centerY + outerMostRadius - 6f,
-            ZERO,
-            NEG_SEMI_CIRCLE,
-            false,
-            blackPaint
-        )
-
-        // left bottom line
-        canvas?.drawLine(
-            centerX - outerMostRadius + 5,
-            centerY,
-            centerX - innerMostRadius - 5,
-            centerY,
-            blackPaint
-        )
-
-        // right bottom line
-        canvas?.drawLine(
-            centerX + outerMostRadius - 5,
-            centerY,
-            centerX + innerMostRadius + 5,
-            centerY,
-            blackPaint
-        )
-
-        // mark Draw the segments
-        val segmentAngle = 180f / -5f
-        for (i in 0 until 5) {
-            paint.color = segmentColors[i]
-            canvas?.drawArc(
-                centerX - outerMostRadius + 13f / 2f,
-                centerY - outerMostRadius + 13f / 2f,
-                centerX + outerMostRadius - 13f / 2f,
-                centerY + outerMostRadius - 13f / 2f,
-                i * segmentAngle,
-                segmentAngle,
-                true,
-                paint
+        canvas?.apply {
+            // outer shadow
+            drawSemicircle(
+                left = centerX - outerMostRadius,
+                top = centerY - outerMostRadius,
+                right = centerX + outerMostRadius,
+                bottom = centerY + outerMostRadius,
+                paint = grayPaint
             )
-        }
-
-        // inner shadow
-        canvas?.drawArc(
-            centerX - innerMostRadius,
-            centerY - innerMostRadius,
-            centerX + innerMostRadius,
-            centerY + innerMostRadius,
-            ZERO,
-            NEG_SEMI_CIRCLE,
-            false,
-            grayPaint
-        )
-
-        // inner arc
-        canvas?.drawArc(
-            centerX - innerMostRadius - 6f,
-            centerY - innerMostRadius - 6f,
-            centerX + innerMostRadius + 6f,
-            centerY + innerMostRadius + 6f,
-            ZERO,
-            NEG_SEMI_CIRCLE,
-            false,
-            blackPaint
-        )
-
-        // colorless shadow
-        canvas?.drawArc(
-            centerX - innerMostRadius + 3f,
-            centerY - innerMostRadius + 3f,
-            centerX + innerMostRadius - 3f,
-            centerY + innerMostRadius - 3f,
-            ZERO,
-            NEG_SEMI_CIRCLE,
-            true,
-            colorlessPaint
-        )
-
-        // GOOD text
-        canvas?.drawText(
-            GOOD_SCORE,
-            centerX + innerMostRadius + 10f,
-            centerY - 20f,
-            textPaint
-        )
-
-        // Bad text
-        canvas?.drawText(
-            BAD_SCORE,
-            centerX - outerMostRadius + 20f,
-            centerY - 20f,
-            textPaint
-        )
-
-        // smaller dollar
-        canvas?.drawBitmap(
-            smallDollar,
-            centerX + outerMostRadius - 40f,
-            centerY - outerMostRadius,
-            null
-        )
-
-        // bigger dollar
-        canvas?.drawBitmap(
-            bigDollar,
-            centerX + outerMostRadius + 30f,
-            centerY - outerMostRadius + 120f,
-            null
-        )
-
-        // indicator circle
-        canvas?.drawCircle(centerX, centerY - 20f, 20f, stickPaint)
-
-        // stick path
-        stickPath.apply {
-            moveTo(centerX + 10, centerY - 10)
-            lineTo(centerX - innerMostRadius - 30, centerY - 10)
-            arcTo(
-                centerX - innerMostRadius - 50,
-                centerY - 20,
-                centerX - innerMostRadius - 30,
-                centerY - 10,
-                90F,
-                180F,
-                false
+            // outer arc
+            drawSemicircle(
+                left = centerX - outerMostRadius + 6f,
+                top = centerY - outerMostRadius + 6f,
+                right = centerX + outerMostRadius - 6f,
+                bottom = centerY + outerMostRadius - 6f,
+                paint = blackPaint
             )
-            lineTo(centerX + 10, centerY - 30)
+            // left bottom line
+            drawLine(
+                centerX - outerMostRadius + 5,
+                centerY,
+                centerX - innerMostRadius - 5,
+                centerY,
+                blackPaint
+            )
+            // right bottom line
+            drawLine(
+                centerX + outerMostRadius - 5,
+                centerY,
+                centerX + innerMostRadius + 5,
+                centerY,
+                blackPaint
+            )
+            // Draw the segments
+            val segmentAngle = 180F / -NUM_OF_SEGMENTS
+            for (i in 0 until NUM_OF_SEGMENTS) {
+                paint.color = segmentColors[i]
+                drawArc(
+                    centerX - outerMostRadius + 13f / 2f,
+                    centerY - outerMostRadius + 13f / 2f,
+                    centerX + outerMostRadius - 13f / 2f,
+                    centerY + outerMostRadius - 13f / 2f,
+                    i * segmentAngle,
+                    segmentAngle,
+                    true,
+                    paint
+                )
+            }
+            // inner shadow
+            drawSemicircle(
+                left = centerX - innerMostRadius,
+                top = centerY - innerMostRadius,
+                right = centerX + innerMostRadius,
+                bottom = centerY + innerMostRadius,
+                paint = grayPaint
+            )
+            // inner arc
+            drawSemicircle(
+                left = centerX - innerMostRadius - 6f,
+                top = centerY - innerMostRadius - 6f,
+                right = centerX + innerMostRadius + 6f,
+                bottom = centerY + innerMostRadius + 6f,
+                paint = blackPaint
+            )
+            // colorless shadow
+            drawSemicircle(
+                left = centerX - innerMostRadius + 3f,
+                top = centerY - innerMostRadius + 3f,
+                right = centerX + innerMostRadius - 3f,
+                bottom = centerY + innerMostRadius - 3f,
+                paint = colorlessPaint
+            )
+            // GOOD text
+            drawText(
+                GOOD_SCORE,
+                centerX + innerMostRadius + 10f,
+                centerY - 20f,
+                textPaint
+            )
+            // Bad text
+            drawText(
+                BAD_SCORE,
+                centerX - outerMostRadius + 20f,
+                centerY - 20f,
+                textPaint
+            )
+            // smaller dollar
+            drawBitmap(
+                smallDollar,
+                centerX + outerMostRadius - 40f,
+                centerY - outerMostRadius,
+                null
+            )
+            // bigger dollar
+            drawBitmap(
+                bigDollar,
+                centerX + outerMostRadius + 30f,
+                centerY - outerMostRadius + 120f,
+                null
+            )
+            // indicator circle
+            drawCircle(centerX, centerY - 20f, 20f, stickPaint)
+            // stick path
+            stickPath.apply {
+                moveTo(centerX + 10, centerY - 10)
+                lineTo(centerX - innerMostRadius - 30, centerY - 10)
+                arcTo(
+                    centerX - innerMostRadius - 50,
+                    centerY - 20,
+                    centerX - innerMostRadius - 30,
+                    centerY - 10,
+                    90F,
+                    180F,
+                    false
+                )
+                lineTo(centerX + 10, centerY - 30)
+            }
+            // Save the current canvas state
+            save()
+            // Set the pivot point for rotation
+            rotate(percent, centerX, centerY - 20f)
+            drawPath(stickPath, stickPaint)
+            restore()
         }
-
-        // Save the current canvas state
-        canvas?.save()
-
-//        // Set the pivot point for rotation
-        canvas?.rotate(percent, centerX, centerY - 20f)
-
-        canvas?.drawPath(stickPath, stickPaint)
-
-        canvas?.restore()
     }
 
     fun animateRotation(degrees: Float, duration: Long) {
