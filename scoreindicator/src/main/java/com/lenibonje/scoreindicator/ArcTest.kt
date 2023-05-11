@@ -52,7 +52,6 @@ class ArcTest(context: Context, attributeSet: AttributeSet) : View(context, attr
             else -> w
         }
 
-
         setMeasuredDimension(weedth, heetth)
     }
 
@@ -69,13 +68,5 @@ class ArcTest(context: Context, attributeSet: AttributeSet) : View(context, attr
             false,
             paint
         )
-
     }
-
 }
-
-
-
-
-
-
