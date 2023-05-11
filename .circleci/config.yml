@@ -72,5 +72,11 @@ workflows:
     jobs:
       - createSonarEnv
       - createLocalEnv
-      - build
-      - test
+      - build:
+          requires:
+            - createSonarEnv
+            - createLocalEnv
+      - test:
+          requires:
+            - createSonarEnv
+            - createLocalEnv
