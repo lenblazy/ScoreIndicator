@@ -22,5 +22,5 @@ def getProps(path){
     props.load(new FileInputStream(file(path)))
     return props
 }
-
-apply from: 'scripts/publish-root.gradle'
+//todo revert
+//apply from: 'scripts/publish-root.gradle'

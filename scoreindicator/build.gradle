@@ -19,7 +19,8 @@ ext {
     PUBLISH_VERSION = '0.1.0'
     PUBLISH_ARTIFACT_ID = 'ScoreIndicator'
 }
-apply from: 'publish-remote.gradle'
+//todo revert
+//apply from: 'publish-remote.gradle'
 
 android {
     namespace 'com.lenibonje.scoreindicator'
