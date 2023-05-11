@@ -3,45 +3,40 @@ version: 2.1
 orbs:
   android: circleci/android@1.0.3
 
-defaults: &defaults
-  docker:
-    - image: circleci/android:api-30-node
-  environment:
-    JVM_OPTS: -Xmx3200m
-
 jobs:
-  unit-tests:
-    <<: *defaults
+  build:
+    docker:
+      - image: circleci/android:api-30-node
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "scoreindicator/build.gradle" }}
-      # - run:
-      #     name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-      #     command: sudo chmod +x ./gradlew
+          keys: [app-build]
+      - run:
+         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "scoreindicator/build.gradle" }}
-      - run:
-          name: Run the unit tests
-          command: ./gradlew test
-      - store_artifacts:
-          path: scoreindicator/build/reports
+          key: app-build
 
-    # static-analysis:
+  # test:
+    
 
-    # release:
+  # static-analysis:
 
+  # release:
+    
 
-
+    
 workflows:
-  scoreIndicator:
+  sample: 
     jobs:
-      - unit-tests
+      - build
       # - test:
       #     requires: [build]
       # - static-analysis:
