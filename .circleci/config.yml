@@ -3,8 +3,8 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: circleci/android:api-30-node
-    environment:
-      JVM_OPTS: -Xmx3200m
+  environment:
+    JVM_OPTS: -Xmx3200m
 
 jobs:
   build:
