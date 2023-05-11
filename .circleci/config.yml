@@ -8,9 +8,10 @@ defaults: &defaults
 
 jobs:
   createEnvironment:
+    <<: *defaults
     steps:
       - checkout
-      - run
+      - run:
           name: Generate sonar-project.properties
           command: |
             touch sonar-project.properties
