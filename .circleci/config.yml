@@ -1,45 +1,26 @@
-version: 2.1
-
+version: '2.1'
 orbs:
-  android: circleci/android@1.0.3
-
+  android: circleci/android@2.0
 jobs:
-  build:
-    docker:
-      - image: circleci/android:api-30-node
-    environment:
-      JVM_OPTS: -Xmx3200m
+  test:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2021.10.1
     steps:
       - checkout
-      - restore_cache:
-          keys: [app-build]
-      - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: app-build
-
-  # test:
-    
-
-  # static-analysis:
-
-  # release:
-    
-
-    
+      - android/create-avd:
+          avd-name: myavd
+          install: true
+          system-image: system-images;android-29;default;x86
+      - android/start-emulator:
+          avd-name: myavd
+          no-window: true
+          restore-gradle-cache-prefix: v1a
+      - android/run-tests
+      - android/save-gradle-cache:
+          cache-prefix: v1a
 workflows:
-  sample: 
+  test:
     jobs:
-      - build
-      # - test:
-      #     requires: [build]
-      # - static-analysis:
-      #     requires: [build]
-      # - release:
-      #     requires: [static-analysis]
+      - test
