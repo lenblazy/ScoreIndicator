@@ -7,6 +7,26 @@ defaults: &defaults
     JVM_OPTS: -Xmx3200m
 
 jobs:
+  createEnvironment:
+    steps:
+      - checkout
+      - run
+          name: Generate sonar-project.properties
+          command: |
+            touch sonar-project.properties
+            echo sonar.projectKey=$sonar_projectKey >> sonar-project.properties
+            echo sonar.host.url=$sonar_host_url >> sonar-project.properties
+            echo sonar.login=$sonar_projectKey >> sonar-project.properties
+            echo sonar.junit.reportPaths=$sonar_junit_reportPaths >> sonar-project.properties
+            echo sonar.coverage.jacoco.xmlReportPaths=$sonar_coverage_jacoco_xmlReportPaths >> sonar-project.properties
+            echo sonar.kotlin.detekt.reportPaths=$sonar_kotlin_detekt_reportPaths >> sonar-project.properties
+            echo sonar.dependencyCheck.htmlReportPath=$sonar_dependencyCheck_htmlReportPath >> sonar-project.properties
+      - run:
+          name: Print sonar-project.properties contents
+          command: |
+            pwd
+            echo sonar-project.properties
+
   build:
     <<: *defaults
     steps:
@@ -50,5 +70,6 @@ jobs:
 workflows:
   scoreIndicator:
     jobs:
-      - build
+      - createEnvironment
+#      - build
 #      - test
