@@ -1,7 +1,6 @@
 # Gradle files
-*gradle/
+.gradle/
 build/
-gradlew*
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -32,10 +31,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
-
-# Publish scripts
-scripts/*
-*/publish-remote.gradle
 
 # Images
 *.DS_Store
