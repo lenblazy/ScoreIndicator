@@ -38,7 +38,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var smallDollar: Bitmap
 
     private var score = ZERO
-    var percent: Float = ZERO
+    var percent: Float = 0F
     var animateDuration: Int = Constants.ANIMATION_DURATION
     var animate: Boolean = true
 
@@ -127,7 +127,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(
             screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
-            screenComputations.dpToPx((WIDGET_HEIGHT + paddingTop + paddingBottom) * 2).toInt(),
+            screenComputations.dpToPx((WIDGET_HEIGHT + paddingTop + paddingBottom) + 10).toInt(),
         )
     }
 
@@ -275,9 +275,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // Save the current canvas state
             save()
             // Set the pivot point for rotation
-//            rotate(percent, centerX, centerY - 20f)
+            rotate(percent, screenComputations.dpToPx(ARC_WIDTH / 2), screenComputations.dpToPx(WIDGET_HEIGHT))
             drawPath(stickPath, stickPaint)
-//            restore()
+            restore()
         }
     }
 
