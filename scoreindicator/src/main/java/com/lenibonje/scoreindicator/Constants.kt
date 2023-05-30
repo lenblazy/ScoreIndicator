@@ -6,8 +6,8 @@ object Constants {
     const val TEXT_SIZE = 5
     const val TEXT_SHADOW_SIZE = 1
     const val STROKE_WIDTH = 10F
-    const val BIG_DOLLAR_SIZE = 100
-    const val SMALL_DOLLAR_SIZE = 70
+    const val BIG_DOLLAR_SIZE = 55
+    const val SMALL_DOLLAR_SIZE = 35
     const val NEG_SEMI_CIRCLE = -180F
     const val NUM_OF_SEGMENTS = 5
     const val GOOD_SCORE = "GOOD"
@@ -24,7 +24,7 @@ object Constants {
     const val START_X = 5
     const val START_Y = 5
 
-    const val LINE_WIDTH = 15
+    const val LINE_WIDTH = 20
 
 
 }

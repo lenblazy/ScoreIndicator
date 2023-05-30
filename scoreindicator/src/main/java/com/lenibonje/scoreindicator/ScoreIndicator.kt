@@ -104,7 +104,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             }
         }
         grayPaint.apply {
-            color = Color.parseColor("#E0E0E0")
+            color = Color.parseColor("#EBEBEB")
             style = Paint.Style.STROKE
             strokeWidth = STROKE_WIDTH
         }
@@ -230,20 +230,21 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 textPaint
             )
 
-//            // smaller dollar
-//            drawBitmap(
-//                smallDollar,
-//                centerX + outerMostRadius - 40f,
-//                centerY - outerMostRadius,
-//                null
-//            )
-//            // bigger dollar
-//            drawBitmap(
-//                bigDollar,
-//                centerX + outerMostRadius + 30f,
-//                centerY - outerMostRadius + 120f,
-//                null
-//            )
+            // smaller dollar
+            drawBitmap(
+                smallDollar,
+                screenComputations.dpToPx(ARC_WIDTH - 5),
+                screenComputations.dpToPx(START_X + 2),
+                null
+            )
+
+            // bigger dollar
+            drawBitmap(
+                bigDollar,
+                screenComputations.dpToPx(ARC_WIDTH + 5),
+                screenComputations.dpToPx(WIDGET_HEIGHT - 20),
+                null
+            )
             // indicator circle
             drawCircle(
                 screenComputations.dpToPx(ARC_WIDTH / 2),
