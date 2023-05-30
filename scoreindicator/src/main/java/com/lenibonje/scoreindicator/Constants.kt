@@ -11,7 +11,7 @@ object Constants {
     const val NEG_SEMI_CIRCLE = -180F
     const val NUM_OF_SEGMENTS = 5
     const val GOOD_SCORE = "GOOD"
-    const val BAD_SCORE = "BAD"
+    const val BAD_SCORE = "POOR"
 
     const val WIDGET_WIDTH = 130
     const val WIDGET_HEIGHT = 55
@@ -25,6 +25,7 @@ object Constants {
     const val START_Y = 5
 
     const val LINE_WIDTH = 20
+    const val STICK_LENGTH = 25
 
 
 }
