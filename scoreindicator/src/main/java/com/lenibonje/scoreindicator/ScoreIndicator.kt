@@ -28,8 +28,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var paint = Paint()
     private var grayPaint = Paint()
     private var blackPaint = Paint()
-    private var innerBlackPaint = Paint()
-
     private var stickPaint = Paint()
     private var textPaint = Paint()
     private var colorlessPaint = Paint()
@@ -63,23 +61,32 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         ).apply {
             try {
                 animate = getBoolean(R.styleable.score_indicator_animate, true)
+
                 animateDuration = getInteger(
                     R.styleable.score_indicator_animationDuration,
                     Constants.ANIMATION_DURATION
                 )
+
                 score = getFloat(R.styleable.score_indicator_score, ZERO)
                 if (animate) {
                     animateRotation(score, animateDuration.toLong())
                 } else {
                     percent = score
                 }
+
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
-                stickPaint.color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
+
+                stickPaint.apply {
+                    color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
+                    isAntiAlias = true
+                }
+
                 colorlessPaint.apply {
                     color = Color.WHITE
                     strokeWidth = screenComputations.dpToPx(1)
                     isAntiAlias = true
                 }
+
                 textPaint.apply {
                     color = getColor(R.styleable.score_indicator_textColor, Color.WHITE)
                     textSize = screenComputations.dpToPx(TEXT_SIZE)
@@ -96,10 +103,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 recycle()
             }
         }
+
         grayPaint.apply {
+            isAntiAlias = true
             color = Color.parseColor("#EBEBEB")
             style = Paint.Style.STROKE
-            strokeWidth = STROKE_WIDTH
+            strokeWidth = screenComputations.dpToPx(STROKE_WIDTH)
         }
 
         blackPaint.apply {
@@ -109,25 +118,25 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             isAntiAlias = true
         }
 
-        innerBlackPaint.apply {
-            color = Color.BLACK
-            style = Paint.Style.STROKE
-            strokeWidth = screenComputations.dpToPx(LINE_WIDTH)
-            isAntiAlias = true
-
-        }
-
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
-        bigDollar = Bitmap.createScaledBitmap(bigDollar, BIG_DOLLAR_SIZE, BIG_DOLLAR_SIZE, false)
+        bigDollar = Bitmap.createScaledBitmap(
+            bigDollar,
+            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
+            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
+            false)
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar =
-            Bitmap.createScaledBitmap(smallDollar, SMALL_DOLLAR_SIZE, SMALL_DOLLAR_SIZE, false)
+            Bitmap.createScaledBitmap(
+                smallDollar,
+                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
+                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
+                false)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(
             screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
-            screenComputations.dpToPx((WIDGET_HEIGHT + paddingTop + paddingBottom) + 10).toInt(),
+            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt(),
         )
     }
 
@@ -136,7 +145,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         // method requires api level 21
         canvas?.apply {
-            setBackgroundColor(Color.WHITE)
             // outer shadow
             drawSemicircle(
                 left = screenComputations.dpToPx(START_X),
@@ -226,15 +234,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // smaller dollar
             drawBitmap(
                 smallDollar,
-                screenComputations.dpToPx(ARC_WIDTH - 5),
-                screenComputations.dpToPx(START_X + 2),
+                screenComputations.dpToPx(ARC_WIDTH - 10),
+                screenComputations.dpToPx(START_X ),
                 null
             )
 
             // bigger dollar
             drawBitmap(
                 bigDollar,
-                screenComputations.dpToPx(ARC_WIDTH + 5),
+                screenComputations.dpToPx(WIDGET_WIDTH - 25),
                 screenComputations.dpToPx(WIDGET_HEIGHT - 20),
                 null
             )
