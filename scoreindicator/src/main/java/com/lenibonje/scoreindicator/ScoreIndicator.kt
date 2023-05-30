@@ -83,7 +83,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
                 colorlessPaint.apply {
                     color = Color.WHITE
-                    strokeWidth = screenComputations.dpToPx(1)
+                    strokeWidth = screenComputations.dpToPx(STROKE_WIDTH * 1.6)
                     isAntiAlias = true
                 }
 
@@ -114,7 +114,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         blackPaint.apply {
             color = Color.BLACK
             style = Paint.Style.STROKE
-            strokeWidth = screenComputations.dpToPx(1)
+            strokeWidth = screenComputations.dpToPx(1.0)
             isAntiAlias = true
         }
 
@@ -199,10 +199,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
             // colorless shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
-                top = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
-                right = screenComputations.dpToPx(ARC_WIDTH - 3 - LINE_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 3 - LINE_WIDTH),
+                left = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
+                top = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
+                right = screenComputations.dpToPx(ARC_WIDTH - 4 - LINE_WIDTH),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 4 - LINE_WIDTH),
                 paint = colorlessPaint
             )
 
@@ -234,7 +234,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // smaller dollar
             drawBitmap(
                 smallDollar,
-                screenComputations.dpToPx(ARC_WIDTH - 10),
+                screenComputations.dpToPx(ARC_WIDTH * 0.9),
                 screenComputations.dpToPx(START_X ),
                 null
             )
@@ -242,8 +242,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // bigger dollar
             drawBitmap(
                 bigDollar,
-                screenComputations.dpToPx(WIDGET_WIDTH - 25),
-                screenComputations.dpToPx(WIDGET_HEIGHT - 20),
+                screenComputations.dpToPx(WIDGET_WIDTH * 0.78),
+                screenComputations.dpToPx(WIDGET_HEIGHT * 0.6),
                 null
             )
             // indicator circle

@@ -2,7 +2,7 @@ package com.lenibonje.scoreindicator.utils
 
 class ScreenComputations(private val density: Float) {
 
-    fun dpToPx(size: Int): Float {
-        return size * density
+    fun dpToPx(size: Double): Float {
+        return (size * density).toFloat()
     }
 }
