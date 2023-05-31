@@ -45,9 +45,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private val screenComputations = ScreenComputations(density = resources.displayMetrics.density)
 
     private var segmentColors: IntArray = intArrayOf(
-        Color.parseColor("#153800"),
-        Color.parseColor("#225100"),
-        Color.parseColor("#58A229"),
+        Color.parseColor("#2F6C00"),
+        Color.parseColor("#3F8709"),
+        Color.parseColor("#72BE42"),
         Color.parseColor("#8CDA5B"),
         Color.parseColor("#CEFFAB")
     )
@@ -257,7 +257,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             stickPath.apply {
                 moveTo(
                     screenComputations.dpToPx(ARC_WIDTH / 2 ),
-                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2 + 1)
+                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
                 )
                 lineTo(
                     screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
@@ -266,7 +266,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
                 // public void arcTo(float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean forceMoveTo)
                 arcTo(
-                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH - 8 ),
+                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH - 30 ),
                     screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2),
                     screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2),
@@ -277,7 +277,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
                 lineTo(
                     screenComputations.dpToPx(ARC_WIDTH / 2 ),
-                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2 - 1 )
+                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2 )
                 )
             }
             // Save the current canvas state
