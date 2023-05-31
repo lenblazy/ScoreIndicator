@@ -14,13 +14,13 @@ class ScreenComputationsTest {
 
     @Test
     fun `check for computer ability to multiply`() {
-        assertThat(SUT.dpToPx(1)).isEqualTo(2.5f)
+        assertThat(SUT.dpToPx(1.0)).isEqualTo(2.5f)
     }
 
     @Test
     fun `check different screen density`() {
         SUT = ScreenComputations(3f)
-        assertThat(SUT.dpToPx(3)).isEqualTo(9f)
+        assertThat(SUT.dpToPx(3.0)).isEqualTo(9f)
     }
 
 }
