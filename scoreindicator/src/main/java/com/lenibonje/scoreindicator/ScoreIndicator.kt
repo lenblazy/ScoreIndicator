@@ -2,24 +2,26 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.lenibonje.scoreindicator.Constants.ARC_WIDTH
 import com.lenibonje.scoreindicator.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.Constants.BIG_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.Constants.DOT_SIZE
 import com.lenibonje.scoreindicator.Constants.GOOD_SCORE
+import com.lenibonje.scoreindicator.Constants.LINE_WIDTH
 import com.lenibonje.scoreindicator.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.Constants.SMALL_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.Constants.START_X
+import com.lenibonje.scoreindicator.Constants.STICK_LENGTH
 import com.lenibonje.scoreindicator.Constants.STROKE_WIDTH
 import com.lenibonje.scoreindicator.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.Constants.TEXT_SIZE
+import com.lenibonje.scoreindicator.Constants.WIDGET_HEIGHT
+import com.lenibonje.scoreindicator.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.Constants.ZERO
-import java.lang.Integer.min
+import com.lenibonje.scoreindicator.utils.ScreenComputations
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
@@ -34,16 +36,18 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     private var smallDollar: Bitmap
 
     private var score = ZERO
-    var percent: Float = ZERO
+    var percent: Float = 0F
     var animateDuration: Int = Constants.ANIMATION_DURATION
     var animate: Boolean = true
 
     private val stickPath = Path()
 
+    private val screenComputations = ScreenComputations(density = resources.displayMetrics.density)
+
     private var segmentColors: IntArray = intArrayOf(
-        Color.parseColor("#153800"),
-        Color.parseColor("#225100"),
-        Color.parseColor("#58A229"),
+        Color.parseColor("#2F6C00"),
+        Color.parseColor("#3F8709"),
+        Color.parseColor("#72BE42"),
         Color.parseColor("#8CDA5B"),
         Color.parseColor("#CEFFAB")
     )
@@ -57,27 +61,41 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         ).apply {
             try {
                 animate = getBoolean(R.styleable.score_indicator_animate, true)
+
                 animateDuration = getInteger(
                     R.styleable.score_indicator_animationDuration,
                     Constants.ANIMATION_DURATION
                 )
+
                 score = getFloat(R.styleable.score_indicator_score, ZERO)
                 if (animate) {
                     animateRotation(score, animateDuration.toLong())
                 } else {
                     percent = score
                 }
+
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
-                stickPaint.color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
-                colorlessPaint.color = Color.WHITE
+
+                stickPaint.apply {
+                    color = getColor(R.styleable.score_indicator_stickColor, Color.BLACK)
+                    isAntiAlias = true
+                }
+
+                colorlessPaint.apply {
+                    color = Color.WHITE
+                    strokeWidth = screenComputations.dpToPx(STROKE_WIDTH * 1.6)
+                    isAntiAlias = true
+                }
+
                 textPaint.apply {
                     color = getColor(R.styleable.score_indicator_textColor, Color.WHITE)
-                    textSize = TEXT_SIZE
+                    textSize = screenComputations.dpToPx(TEXT_SIZE)
                     isFakeBoldText = true
+                    isAntiAlias = true
                     setShadowLayer(
-                        TEXT_SHADOW_SIZE,
-                        TEXT_SHADOW_SIZE,
-                        TEXT_SHADOW_SIZE,
+                        screenComputations.dpToPx(TEXT_SHADOW_SIZE),
+                        screenComputations.dpToPx(TEXT_SHADOW_SIZE),
+                        screenComputations.dpToPx(TEXT_SHADOW_SIZE),
                         Color.BLACK
                     )
                 }
@@ -85,154 +103,187 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 recycle()
             }
         }
+
         grayPaint.apply {
-            color = Color.parseColor("#E0E0E0")
+            isAntiAlias = true
+            color = Color.parseColor("#EBEBEB")
             style = Paint.Style.STROKE
-            strokeWidth = STROKE_WIDTH
+            strokeWidth = screenComputations.dpToPx(STROKE_WIDTH)
         }
 
         blackPaint.apply {
             color = Color.BLACK
             style = Paint.Style.STROKE
-            strokeWidth = 2f
+            strokeWidth = screenComputations.dpToPx(1.0)
+            isAntiAlias = true
         }
 
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
-        bigDollar = Bitmap.createScaledBitmap(bigDollar, BIG_DOLLAR_SIZE, BIG_DOLLAR_SIZE, false)
+        bigDollar = Bitmap.createScaledBitmap(
+            bigDollar,
+            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
+            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
+            false)
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar =
-            Bitmap.createScaledBitmap(smallDollar, SMALL_DOLLAR_SIZE, SMALL_DOLLAR_SIZE, false)
+            Bitmap.createScaledBitmap(
+                smallDollar,
+                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
+                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
+                false)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        setMeasuredDimension(
+            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
+            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt(),
+        )
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val centerX = width / 2f
-        val centerY = height / 2f
-        val outerMostRadius = min(width, height) / 5f
-        val innerMostRadius = outerMostRadius - 100f
 
         // method requires api level 21
         canvas?.apply {
             // outer shadow
             drawSemicircle(
-                left = centerX - outerMostRadius,
-                top = centerY - outerMostRadius,
-                right = centerX + outerMostRadius,
-                bottom = centerY + outerMostRadius,
+                left = screenComputations.dpToPx(START_X),
+                top = screenComputations.dpToPx(START_X),
+                right = screenComputations.dpToPx(ARC_WIDTH),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
                 paint = grayPaint
             )
             // outer arc
             drawSemicircle(
-                left = centerX - outerMostRadius + 6f,
-                top = centerY - outerMostRadius + 6f,
-                right = centerX + outerMostRadius - 6f,
-                bottom = centerY + outerMostRadius - 6f,
-                paint = blackPaint
+                left = screenComputations.dpToPx(START_X + 1),
+                top = screenComputations.dpToPx(START_X + 1),
+                right = screenComputations.dpToPx(ARC_WIDTH - 1),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
+                paint = blackPaint,
+                useCenter = true
             )
-            // left bottom line
-            drawLine(
-                centerX - outerMostRadius + 5,
-                centerY,
-                centerX - innerMostRadius - 5,
-                centerY,
-                blackPaint
-            )
-            // right bottom line
-            drawLine(
-                centerX + outerMostRadius - 5,
-                centerY,
-                centerX + innerMostRadius + 5,
-                centerY,
-                blackPaint
-            )
+
             // Draw the segments
             val segmentAngle = 180F / -NUM_OF_SEGMENTS
             for (i in 0 until NUM_OF_SEGMENTS) {
                 paint.color = segmentColors[i]
                 drawArc(
-                    centerX - outerMostRadius + 13f / 2f,
-                    centerY - outerMostRadius + 13f / 2f,
-                    centerX + outerMostRadius - 13f / 2f,
-                    centerY + outerMostRadius - 13f / 2f,
+                    screenComputations.dpToPx(START_X + 2),
+                    screenComputations.dpToPx(START_X + 2),
+                    screenComputations.dpToPx(ARC_WIDTH - 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 2),
                     i * segmentAngle,
                     segmentAngle,
                     true,
                     paint
                 )
             }
+
             // inner shadow
             drawSemicircle(
-                left = centerX - innerMostRadius,
-                top = centerY - innerMostRadius,
-                right = centerX + innerMostRadius,
-                bottom = centerY + innerMostRadius,
+                left = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
+                top = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
+                right = screenComputations.dpToPx(ARC_WIDTH - 3 - LINE_WIDTH),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 3 - LINE_WIDTH),
                 paint = grayPaint
             )
+
             // inner arc
             drawSemicircle(
-                left = centerX - innerMostRadius - 6f,
-                top = centerY - innerMostRadius - 6f,
-                right = centerX + innerMostRadius + 6f,
-                bottom = centerY + innerMostRadius + 6f,
-                paint = blackPaint
+                left = screenComputations.dpToPx(START_X + 1 + LINE_WIDTH),
+                top = screenComputations.dpToPx(START_X + 1 + LINE_WIDTH),
+                right = screenComputations.dpToPx(ARC_WIDTH - 1 - LINE_WIDTH),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 1 - LINE_WIDTH),
+                paint = blackPaint,
             )
+
             // colorless shadow
             drawSemicircle(
-                left = centerX - innerMostRadius + 3f,
-                top = centerY - innerMostRadius + 3f,
-                right = centerX + innerMostRadius - 3f,
-                bottom = centerY + innerMostRadius - 3f,
+                left = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
+                top = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
+                right = screenComputations.dpToPx(ARC_WIDTH - 4 - LINE_WIDTH),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 4 - LINE_WIDTH),
                 paint = colorlessPaint
             )
+
+            // colorless line
+            drawLine(
+                screenComputations.dpToPx(START_X + 2 + LINE_WIDTH),
+                screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE),
+                screenComputations.dpToPx(ARC_WIDTH - 2 - LINE_WIDTH),
+                screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE),
+                colorlessPaint
+            )
+
             // GOOD text
             drawText(
                 GOOD_SCORE,
-                centerX + innerMostRadius + 10f,
-                centerY - 20f,
+                screenComputations.dpToPx(ARC_WIDTH - LINE_WIDTH),
+                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
                 textPaint
             )
+
             // Bad text
             drawText(
                 BAD_SCORE,
-                centerX - outerMostRadius + 20f,
-                centerY - 20f,
+                screenComputations.dpToPx(START_X + 5),
+                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
                 textPaint
             )
+
             // smaller dollar
             drawBitmap(
                 smallDollar,
-                centerX + outerMostRadius - 40f,
-                centerY - outerMostRadius,
+                screenComputations.dpToPx(ARC_WIDTH * 0.9),
+                screenComputations.dpToPx(START_X ),
                 null
             )
+
             // bigger dollar
             drawBitmap(
                 bigDollar,
-                centerX + outerMostRadius + 30f,
-                centerY - outerMostRadius + 120f,
+                screenComputations.dpToPx(WIDGET_WIDTH * 0.78),
+                screenComputations.dpToPx(WIDGET_HEIGHT * 0.6),
                 null
             )
             // indicator circle
-            drawCircle(centerX, centerY - 20f, 20f, stickPaint)
+            drawCircle(
+                screenComputations.dpToPx(ARC_WIDTH / 2),
+                screenComputations.dpToPx(WIDGET_HEIGHT),
+                screenComputations.dpToPx(DOT_SIZE),
+                stickPaint
+            )
             // stick path
             stickPath.apply {
-                moveTo(centerX + 10, centerY - 10)
-                lineTo(centerX - innerMostRadius - 30, centerY - 10)
+                moveTo(
+                    screenComputations.dpToPx(ARC_WIDTH / 2 ),
+                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
+                )
+                lineTo(
+                    screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx( WIDGET_HEIGHT + DOT_SIZE / 2)
+                )
+
+                // public void arcTo(float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean forceMoveTo)
                 arcTo(
-                    centerX - innerMostRadius - 50,
-                    centerY - 20,
-                    centerX - innerMostRadius - 30,
-                    centerY - 10,
+                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH - 30 ),
+                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2),
+                    screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2),
                     90F,
                     180F,
                     false
                 )
-                lineTo(centerX + 10, centerY - 30)
+
+                lineTo(
+                    screenComputations.dpToPx(ARC_WIDTH / 2 ),
+                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2 )
+                )
             }
             // Save the current canvas state
             save()
             // Set the pivot point for rotation
-            rotate(percent, centerX, centerY - 20f)
+            rotate(percent, screenComputations.dpToPx(ARC_WIDTH / 2), screenComputations.dpToPx(WIDGET_HEIGHT))
             drawPath(stickPath, stickPaint)
             restore()
         }
