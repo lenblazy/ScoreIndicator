@@ -67,6 +67,16 @@ jobs:
           path: app/build/reports
           destination: reports
 
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: [ app-build ]
+
+
+
+
 workflows:
   scoreIndicator:
     jobs:
