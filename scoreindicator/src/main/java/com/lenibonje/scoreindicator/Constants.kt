@@ -26,6 +26,4 @@ object Constants {
 
     const val LINE_WIDTH = WIDGET_WIDTH * 0.18
     const val STICK_LENGTH = WIDGET_HEIGHT * 0.1
-
-
 }
