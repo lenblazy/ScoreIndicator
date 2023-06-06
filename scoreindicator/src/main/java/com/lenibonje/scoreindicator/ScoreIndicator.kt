@@ -106,7 +106,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
         grayPaint.apply {
             isAntiAlias = true
-            color = Color.parseColor("#EBEBEB")
+            color = Color.parseColor("#E0E0E0")
             style = Paint.Style.STROKE
             strokeWidth = screenComputations.dpToPx(STROKE_WIDTH)
         }
