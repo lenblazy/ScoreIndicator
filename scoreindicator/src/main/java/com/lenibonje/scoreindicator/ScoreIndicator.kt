@@ -123,20 +123,22 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             bigDollar,
             screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
             screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
-            false)
+            false
+        )
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
                 screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
                 screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
-                false)
+                false
+            )
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(
             screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
-            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt(),
+            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
         )
     }
 
@@ -194,7 +196,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 top = screenComputations.dpToPx(START_X + 1 + LINE_WIDTH),
                 right = screenComputations.dpToPx(ARC_WIDTH - 1 - LINE_WIDTH),
                 bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 1 - LINE_WIDTH),
-                paint = blackPaint,
+                paint = blackPaint
             )
 
             // colorless shadow
@@ -235,7 +237,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             drawBitmap(
                 smallDollar,
                 screenComputations.dpToPx(ARC_WIDTH * 0.9),
-                screenComputations.dpToPx(START_X ),
+                screenComputations.dpToPx(START_X),
                 null
             )
 
@@ -256,19 +258,19 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // stick path
             stickPath.apply {
                 moveTo(
-                    screenComputations.dpToPx(ARC_WIDTH / 2 ),
+                    screenComputations.dpToPx(ARC_WIDTH / 2),
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
                 )
                 lineTo(
-                    screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
-                    screenComputations.dpToPx( WIDGET_HEIGHT + DOT_SIZE / 2)
+                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
                 )
 
                 // public void arcTo(float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean forceMoveTo)
                 arcTo(
-                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH - 30 ),
+                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH - 30),
                     screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2),
-                    screenComputations.dpToPx( ARC_WIDTH / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx(ARC_WIDTH / 2 - STICK_LENGTH),
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2),
                     90F,
                     180F,
@@ -276,8 +278,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 )
 
                 lineTo(
-                    screenComputations.dpToPx(ARC_WIDTH / 2 ),
-                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2 )
+                    screenComputations.dpToPx(ARC_WIDTH / 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2)
                 )
             }
             // Save the current canvas state
