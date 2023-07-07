@@ -68,11 +68,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
                 )
 
                 score = getFloat(R.styleable.score_indicator_score, ZERO)
-                if (animate) {
-                    animateRotation(score, animateDuration.toLong())
-                } else {
-                    percent = score
-                }
+                if (animate) animateRotation(score, animateDuration.toLong())
+                else percent = score
 
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
 
@@ -291,7 +288,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
         }
     }
 
-    fun animateRotation(degrees: Float, duration: Long) {
+    private fun animateRotation(degrees: Float, duration: Long) {
         val animator = ValueAnimator.ofFloat(percent, degrees)
         animator.addUpdateListener { valueAnimator ->
             percent = valueAnimator.animatedValue as Float
