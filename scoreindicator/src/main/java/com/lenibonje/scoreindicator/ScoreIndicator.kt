@@ -2,8 +2,14 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.lenibonje.scoreindicator.Constants.ARC_WIDTH
 import com.lenibonje.scoreindicator.Constants.BAD_SCORE
@@ -23,7 +29,9 @@ import com.lenibonje.scoreindicator.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 
-class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
+
+class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
+    : View(context, attributeSet) {
 
     private var paint = Paint()
     private var grayPaint = Paint()
@@ -133,10 +141,48 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(
-            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
+//        setMeasuredDimension(
+//            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
+//            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
+//        )
+
+
+        Log.e("Chart onMeasure w", MeasureSpec.toString(widthMeasureSpec))
+        Log.e("Chart onMeasure h", MeasureSpec.toString(heightMeasureSpec))
+
+        val desiredWidth =
+            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt()
+//            suggestedMinimumWidth + paddingLeft + paddingRight
+        val desiredHeight =
             screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
+//            suggestedMinimumHeight + paddingTop + paddingBottom
+
+        setMeasuredDimension(
+            measureDimension(desiredWidth, widthMeasureSpec),
+            measureDimension(desiredHeight, heightMeasureSpec)
         )
+
+    }
+
+    private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
+        var result: Int
+        val specMode = MeasureSpec.getMode(measureSpec)
+        val specSize = MeasureSpec.getSize(measureSpec)
+        if (specMode == MeasureSpec.EXACTLY) {
+            Log.e("ChartView", "imekuja apa kwa specMode == MeasureSpec.EXACTLY")
+            Log.e("ChartView", "size == ${MeasureSpec.getSize(MeasureSpec.EXACTLY)}")
+            result = specSize
+        } else {
+            result = desiredSize
+            if (specMode == MeasureSpec.AT_MOST) {
+                Log.e("ChartView", "imekuja apa kwa specMode == MeasureSpec.AT_MOST")
+                result = Math.min(result, specSize)
+            }
+        }
+        if (result < desiredSize) {
+            Log.e("ChartView", "The view is too small, the content might get cut")
+        }
+        return result
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -282,7 +328,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
             // Save the current canvas state
             save()
             // Set the pivot point for rotation
-            rotate(percent, screenComputations.dpToPx(ARC_WIDTH / 2), screenComputations.dpToPx(WIDGET_HEIGHT))
+            rotate(
+                percent,
+                screenComputations.dpToPx(ARC_WIDTH / 2),
+                screenComputations.dpToPx(WIDGET_HEIGHT)
+            )
             drawPath(stickPath, stickPaint)
             restore()
         }
