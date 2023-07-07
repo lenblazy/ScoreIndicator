@@ -26,8 +26,8 @@ import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
-import com.lenibonje.scoreindicator.utils.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
+import com.lenibonje.scoreindicator.utils.GlobalVars.widgetWidth
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 import com.lenibonje.scoreindicator.utils.drawSemicircle
 
@@ -148,19 +148,23 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 //            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
 //        )
 
+        Log.e("[View name] onMeasure w", MeasureSpec.toString(widthMeasureSpec));
+        Log.e("[View name] onMeasure h", MeasureSpec.toString(heightMeasureSpec));
+
 
         Log.e("Chart onMeasure w", MeasureSpec.toString(widthMeasureSpec))
         Log.e("Chart onMeasure h", MeasureSpec.toString(heightMeasureSpec))
 
         val desiredWidth =
-            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt()
+            screenComputations.dpToPx(widgetWidth.toDouble() + paddingStart + paddingEnd).toInt()
 //            suggestedMinimumWidth + paddingLeft + paddingRight
         val desiredHeight =
-            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
+            screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() + paddingTop + paddingBottom + 10).toInt()
 //            suggestedMinimumHeight + paddingTop + paddingBottom
 
-        setMeasuredDimension(
-            measureDimension(desiredWidth, widthMeasureSpec),
+//        widgetWidth = measureDimension(desiredWidth, widthMeasureSpec)
+
+        setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
             measureDimension(desiredHeight, heightMeasureSpec)
         )
 
@@ -179,6 +183,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             if (specMode == MeasureSpec.AT_MOST) {
                 Log.e("ChartView", "imekuja apa kwa specMode == MeasureSpec.AT_MOST")
                 result = Math.min(result, specSize)
+                Log.e("ChartView", "result size is $result")
             }
         }
         if (result < desiredSize) {
@@ -197,7 +202,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 left = screenComputations.dpToPx(START_X),
                 top = screenComputations.dpToPx(START_X),
                 right = screenComputations.dpToPx(ARC_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2),
                 paint = grayPaint
             )
             // outer arc
@@ -205,7 +210,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 left = screenComputations.dpToPx(START_X + 1),
                 top = screenComputations.dpToPx(START_X + 1),
                 right = screenComputations.dpToPx(ARC_WIDTH - 1),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2),
                 paint = blackPaint,
                 useCenter = true
             )
@@ -218,7 +223,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                     screenComputations.dpToPx(START_X + 2),
                     screenComputations.dpToPx(START_X + 2),
                     screenComputations.dpToPx(ARC_WIDTH - 2),
-                    screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2 - 2),
                     i * segmentAngle,
                     segmentAngle,
                     true,
@@ -266,7 +271,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             drawText(
                 GOOD_SCORE,
                 screenComputations.dpToPx(ARC_WIDTH - LINE_WIDTH),
-                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
+                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() - 3),
                 textPaint
             )
 
@@ -274,7 +279,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             drawText(
                 BAD_SCORE,
                 screenComputations.dpToPx(START_X + 5),
-                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
+                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() - 3),
                 textPaint
             )
 
@@ -289,14 +294,14 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             // bigger dollar
             drawBitmap(
                 bigDollar,
-                screenComputations.dpToPx(WIDGET_WIDTH * 0.78),
+                screenComputations.dpToPx(widgetWidth * 0.78),
                 screenComputations.dpToPx(WIDGET_HEIGHT * 0.6),
                 null
             )
             // indicator circle
             drawCircle(
                 screenComputations.dpToPx(ARC_WIDTH / 2),
-                screenComputations.dpToPx(WIDGET_HEIGHT),
+                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble()),
                 screenComputations.dpToPx(DOT_SIZE),
                 stickPaint
             )
@@ -333,7 +338,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             rotate(
                 percent,
                 screenComputations.dpToPx(ARC_WIDTH / 2),
-                screenComputations.dpToPx(WIDGET_HEIGHT)
+                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble())
             )
             drawPath(stickPath, stickPaint)
             restore()
