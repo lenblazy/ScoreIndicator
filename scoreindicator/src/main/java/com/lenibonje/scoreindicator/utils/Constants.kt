@@ -1,4 +1,4 @@
-package com.lenibonje.scoreindicator
+package com.lenibonje.scoreindicator.utils
 
 object Constants {
     const val ANIMATION_DURATION = 2000

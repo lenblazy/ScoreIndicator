@@ -11,23 +11,25 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import com.lenibonje.scoreindicator.Constants.ARC_WIDTH
-import com.lenibonje.scoreindicator.Constants.BAD_SCORE
-import com.lenibonje.scoreindicator.Constants.BIG_DOLLAR_SIZE
-import com.lenibonje.scoreindicator.Constants.DOT_SIZE
-import com.lenibonje.scoreindicator.Constants.GOOD_SCORE
-import com.lenibonje.scoreindicator.Constants.LINE_WIDTH
-import com.lenibonje.scoreindicator.Constants.NUM_OF_SEGMENTS
-import com.lenibonje.scoreindicator.Constants.SMALL_DOLLAR_SIZE
-import com.lenibonje.scoreindicator.Constants.START_X
-import com.lenibonje.scoreindicator.Constants.STICK_LENGTH
-import com.lenibonje.scoreindicator.Constants.STROKE_WIDTH
-import com.lenibonje.scoreindicator.Constants.TEXT_SHADOW_SIZE
-import com.lenibonje.scoreindicator.Constants.TEXT_SIZE
-import com.lenibonje.scoreindicator.Constants.WIDGET_HEIGHT
-import com.lenibonje.scoreindicator.Constants.WIDGET_WIDTH
-import com.lenibonje.scoreindicator.Constants.ZERO
+import com.lenibonje.scoreindicator.utils.Constants
+import com.lenibonje.scoreindicator.utils.Constants.ARC_WIDTH
+import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
+import com.lenibonje.scoreindicator.utils.Constants.BIG_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
+import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH
+import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
+import com.lenibonje.scoreindicator.utils.Constants.SMALL_DOLLAR_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.START_X
+import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH
+import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
+import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
+import com.lenibonje.scoreindicator.utils.Constants.WIDGET_WIDTH
+import com.lenibonje.scoreindicator.utils.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.ScreenComputations
+import com.lenibonje.scoreindicator.utils.drawSemicircle
 
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
