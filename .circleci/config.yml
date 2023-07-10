@@ -23,20 +23,6 @@ jobs:
             echo sonar.kotlin.detekt.reportPaths=$sonar_kotlin_detekt_reportPaths >> sonar-project.properties
             echo sonar.dependencyCheck.htmlReportPath=$sonar_dependencyCheck_htmlReportPath >> sonar-project.properties
 
-  createLocalEnv:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Generate local.properties
-          command: |
-            touch local.properties
-            echo ossrhPassword=$ossrhPassword >> local.properties
-            echo ossrhUsername=$ossrhUsername >> local.properties
-            echo signing.key=$signing_key >> local.properties
-            echo signing.password=$sonar_password >> local.properties
-            echo signing.keyId=$sonar_keyId >> local.properties
-
   build:
     <<: *defaults
     steps:
@@ -74,23 +60,41 @@ jobs:
       - restore_cache:
           keys: [ app-build ]
       - run:
+          name: Generate local.properties
+          command: |
+            touch local.properties
+            echo ossrhPassword=$ossrhPassword >> local.properties
+            echo ossrhUsername=$ossrhUsername >> local.properties
+            echo signing.key=$signing_key >> local.properties
+            echo signing.password=$signing_password >> local.properties
+            echo signing.keyId=$signing_keyId >> local.properties
+            echo sonatypeStagingProfileId=$sonatypeStagingProfileId >> local.properties
+            cat local.properties
+            pwd
+            ls
+            mkdir /tmp/artifacts
+            cp local.properties /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+          destination: /tmp/artifacts/local.properties
+      - run:
           name: Publish Library
-          command: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
+          command: |
+            pwd
+            ls
+            ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
   scoreIndicator:
     jobs:
       - createSonarEnv
-      - createLocalEnv
       - build:
           requires:
             - createSonarEnv
-            - createLocalEnv
       - test:
           requires:
             - createSonarEnv
-            - createLocalEnv
       - publish:
           requires:
             - build
@@ -98,5 +102,5 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - release/0.1.2
                 # TODO: set to release branch first
