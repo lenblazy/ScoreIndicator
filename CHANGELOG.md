@@ -7,6 +7,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.2] - 20223-07-10
+- Added support for Light and Dark Themes
+
 ## [0.1.1] - 2023-05-31
 - Added sonarqube for quality checks
 - Used Density-pixels for element sizes instead of pixels
@@ -20,3 +23,4 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [0.1.0]: https://github.com/lenblazy/ScoreIndicator/releases/tag/v0.1.0
 [0.1.1]: https://github.com/lenblazy/ScoreIndicator/releases/tag/v0.1.1
+[0.1.2]: https://github.com/lenblazy/ScoreIndicator/releases/tag/v0.1.2
