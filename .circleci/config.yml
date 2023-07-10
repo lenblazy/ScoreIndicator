@@ -23,7 +23,7 @@ jobs:
             echo sonar.kotlin.detekt.reportPaths=$sonar_kotlin_detekt_reportPaths >> sonar-project.properties
             echo sonar.dependencyCheck.htmlReportPath=$sonar_dependencyCheck_htmlReportPath >> sonar-project.properties
             mkdir /tmp/artifacts
-            cp local.properties /tmp/artifacts/sonar
+            cp sonar-project.properties /tmp/artifacts/sonar
       - store_artifacts:
           path: /tmp/artifacts/sonar
           destination: /tmp/artifacts/sonar/sonar-project.properties
