@@ -12,7 +12,7 @@ object GlobalVars {
     var startX: Double = START_X
 
     var textSize = widgetWidth * 0.045
-    var strokeWidth = widgetWidth * 0.025
+    var strokeWidth: Double = widgetWidth * 0.025
 
     var bigDollarSize = widgetWidth * 0.2
     var smallDollarSize = widgetWidth * 0.15

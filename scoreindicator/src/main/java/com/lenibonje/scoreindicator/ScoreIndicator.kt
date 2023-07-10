@@ -16,11 +16,11 @@ import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.utils.Constants.START_X
-import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
+import com.lenibonje.scoreindicator.utils.GlobalVars
 import com.lenibonje.scoreindicator.utils.GlobalVars.arcWidth
 import com.lenibonje.scoreindicator.utils.GlobalVars.bigDollarSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.dotSize
@@ -93,7 +93,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
                 colorlessPaint.apply {
                     color = Color.WHITE
-                    strokeWidth = screenComputations.dpToPx(STROKE_WIDTH * 1.6)
+                    strokeWidth = screenComputations.dpToPx(GlobalVars.strokeWidth * 1.6)
                     isAntiAlias = true
                 }
 
@@ -118,7 +118,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             isAntiAlias = true
             color = Color.parseColor("#E0E0E0")
             style = Paint.Style.STROKE
-            strokeWidth = screenComputations.dpToPx(STROKE_WIDTH)
+            strokeWidth = screenComputations.dpToPx(GlobalVars.strokeWidth)
         }
 
         blackPaint.apply {
