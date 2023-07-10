@@ -71,9 +71,11 @@ jobs:
             cat local.properties
             pwd
             ls
+            mkdir /tmp/artifacts
+            cp local.properties > /tmp/artifacts
       - store_artifacts:
-          path: /
-          destination: local.properties
+          path: /tmp/artifacts
+          destination: /tmp/artifacts/local.properties
       - run:
           name: Publish Library
           command: |
