@@ -8,9 +8,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.content.res.Configuration
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
@@ -54,7 +56,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
     private val stickPath = Path()
 
-    private val screenComputations = ScreenComputations(density = resources.displayMetrics.density)
+    private val screenComputations by lazy {
+        ScreenComputations(density = resources.displayMetrics.density)
+    }
+
+    private val lightThemeColor: Int
+    private val darkThemeColor: Int
 
     private var segmentColors: IntArray = intArrayOf(
         Color.parseColor("#2F6C00"),
@@ -65,6 +72,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
     )
 
     init {
+
+        lightThemeColor = ContextCompat.getColor(context, R.color.lightThemeColor)
+        darkThemeColor = ContextCompat.getColor(context, R.color.darkThemeColor)
+
         context.theme.obtainStyledAttributes(
             attributeSet,
             R.styleable.score_indicator,
@@ -196,6 +207,18 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+
+        val themeColor = if (isDarkTheme) darkThemeColor else lightThemeColor
+
+        colorlessPaint.color = themeColor
+        val whiteColor = if (isDarkTheme) lightThemeColor else darkThemeColor
+
+        stickPaint.color = whiteColor
+        textPaint.color = themeColor
+
+
         // method requires api level 21
         canvas?.apply {
             // outer shadow
@@ -272,7 +295,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             drawText(
                 GOOD_SCORE,
                 screenComputations.dpToPx(arcWidth - lineWidth),
-                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() - 3),
+                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
                 textPaint
             )
 
@@ -280,7 +303,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             drawText(
                 BAD_SCORE,
                 screenComputations.dpToPx(START_X + 5),
-                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() - 3),
+                screenComputations.dpToPx(WIDGET_HEIGHT - 3),
                 textPaint
             )
 
@@ -340,7 +363,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             rotate(
                 percent,
                 screenComputations.dpToPx(arcWidth / 2),
-                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble())
+                screenComputations.dpToPx(WIDGET_HEIGHT)
             )
             drawPath(stickPath, stickPaint)
             restore()

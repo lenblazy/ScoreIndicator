@@ -72,21 +72,49 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [ app-build ]
-
-
+          keys: [ app-build ]
+      - run:
+          name: Generate local.properties
+          command: |
+            touch local.properties
+            echo ossrhPassword=$ossrhPassword >> local.properties
+            echo ossrhUsername=$ossrhUsername >> local.properties
+            echo signing.key=$signing_key >> local.properties
+            echo signing.password=$signing_password >> local.properties
+            echo signing.keyId=$signing_keyId >> local.properties
+            echo sonatypeStagingProfileId=$sonatypeStagingProfileId >> local.properties
+            cat local.properties
+            pwd
+            ls
+            mkdir /tmp/artifacts
+            cp local.properties /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts
+          destination: /tmp/artifacts/local.properties
+      - run:
+          name: Publish Library
+          command: |
+            pwd
+            ls
+            ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
   scoreIndicator:
     jobs:
       - createSonarEnv
-      - createLocalEnv
       - build:
           requires:
             - createSonarEnv
-            - createLocalEnv
       - test:
           requires:
             - createSonarEnv
-            - createLocalEnv
+      - publish:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - release/0.1.2
+                # TODO: set to release branch first
