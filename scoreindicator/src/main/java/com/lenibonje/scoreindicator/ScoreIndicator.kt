@@ -14,12 +14,10 @@ import android.view.View
 import com.lenibonje.scoreindicator.utils.Constants
 import com.lenibonje.scoreindicator.utils.Constants.ARC_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
-import com.lenibonje.scoreindicator.utils.Constants.BIG_DOLLAR_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
-import com.lenibonje.scoreindicator.utils.Constants.SMALL_DOLLAR_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.START_X
 import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH
 import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
@@ -27,6 +25,13 @@ import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
+import com.lenibonje.scoreindicator.utils.GlobalVars.arcWidth
+import com.lenibonje.scoreindicator.utils.GlobalVars.bigDollarSize
+import com.lenibonje.scoreindicator.utils.GlobalVars.dotSize
+import com.lenibonje.scoreindicator.utils.GlobalVars.lineWidth
+import com.lenibonje.scoreindicator.utils.GlobalVars.smallDollarSize
+import com.lenibonje.scoreindicator.utils.GlobalVars.strokeWidth
+import com.lenibonje.scoreindicator.utils.GlobalVars.textSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.widgetHeight
 import com.lenibonje.scoreindicator.utils.GlobalVars.widgetWidth
 import com.lenibonje.scoreindicator.utils.ScreenComputations
@@ -129,16 +134,16 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         bigDollar = BitmapFactory.decodeResource(resources, R.drawable.big_dollar)
         bigDollar = Bitmap.createScaledBitmap(
             bigDollar,
-            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
-            screenComputations.dpToPx(BIG_DOLLAR_SIZE).toInt(),
+            screenComputations.dpToPx(bigDollarSize).toInt(),
+            screenComputations.dpToPx(bigDollarSize).toInt(),
             false
         )
         smallDollar = BitmapFactory.decodeResource(resources, R.drawable.small_dollar)
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
-                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
-                screenComputations.dpToPx(SMALL_DOLLAR_SIZE).toInt(),
+                screenComputations.dpToPx(smallDollarSize).toInt(),
+                screenComputations.dpToPx(smallDollarSize).toInt(),
                 false
             )
     }
@@ -149,10 +154,27 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         val desiredHeight =
             screenComputations.dpToPx(widgetHeight + paddingTop + paddingBottom + 10).toInt()
 
+        calculateDimensions(desiredWidth)
+
         setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
             measureDimension(desiredHeight, heightMeasureSpec)
         )
 
+    }
+
+    private fun calculateDimensions(desiredWidth: Int) {
+        textSize = desiredWidth * 0.045
+        strokeWidth = desiredWidth * 0.025
+
+        bigDollarSize = desiredWidth * 0.2
+        smallDollarSize = desiredWidth * 0.15
+
+        arcWidth = desiredWidth * 0.75
+        dotSize = desiredWidth * 0.03
+
+        lineWidth = desiredWidth * 0.18
+
+//        var stickLength = widgetHeight * 0.1
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -283,7 +305,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             // indicator circle
             drawCircle(
                 screenComputations.dpToPx(ARC_WIDTH / 2),
-                screenComputations.dpToPx(WIDGET_HEIGHT.toDouble()),
+                screenComputations.dpToPx(WIDGET_HEIGHT),
                 screenComputations.dpToPx(DOT_SIZE),
                 stickPaint
             )
