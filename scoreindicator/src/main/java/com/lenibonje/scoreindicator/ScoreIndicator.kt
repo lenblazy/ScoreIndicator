@@ -2,9 +2,11 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.Constants.ARC_WIDTH
 import com.lenibonje.scoreindicator.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.Constants.BIG_DOLLAR_SIZE
@@ -23,7 +25,8 @@ import com.lenibonje.scoreindicator.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 
-class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
+class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
+    : View(context, attributeSet) {
 
     private var paint = Paint()
     private var grayPaint = Paint()
@@ -42,7 +45,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
     private val stickPath = Path()
 
-    private val screenComputations = ScreenComputations(density = resources.displayMetrics.density)
+    private val screenComputations by lazy {
+        ScreenComputations(density = resources.displayMetrics.density)
+    }
+
+    private val lightThemeColor: Int
+    private val darkThemeColor: Int
 
     private var segmentColors: IntArray = intArrayOf(
         Color.parseColor("#2F6C00"),
@@ -53,6 +61,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
     )
 
     init {
+
+        lightThemeColor = ContextCompat.getColor(context, R.color.lightThemeColor)
+        darkThemeColor = ContextCompat.getColor(context, R.color.darkThemeColor)
+
         context.theme.obtainStyledAttributes(
             attributeSet,
             R.styleable.score_indicator,
@@ -144,6 +156,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) : View(conte
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
+        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+
+        val themeColor = if (isDarkTheme) darkThemeColor else lightThemeColor
+
+        colorlessPaint.color = themeColor
+        stickPaint.color = if (isDarkTheme) lightThemeColor else darkThemeColor
+
 
         // method requires api level 21
         canvas?.apply {
