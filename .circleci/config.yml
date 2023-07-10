@@ -78,6 +78,7 @@ jobs:
           name: Publish Library
           command: |
             pwd
+            ls
             ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
 
 
