@@ -72,7 +72,7 @@ jobs:
             pwd
             ls
             mkdir /tmp/artifacts
-            cp local.properties > /tmp/artifacts
+            cp local.properties /tmp/artifacts
       - store_artifacts:
           path: /tmp/artifacts
           destination: /tmp/artifacts/local.properties
