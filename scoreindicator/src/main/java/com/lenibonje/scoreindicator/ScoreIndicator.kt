@@ -163,7 +163,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         val themeColor = if (isDarkTheme) darkThemeColor else lightThemeColor
 
         colorlessPaint.color = themeColor
-        stickPaint.color = if (isDarkTheme) lightThemeColor else darkThemeColor
+        val whiteColor = if (isDarkTheme) lightThemeColor else darkThemeColor
+
+        stickPaint.color = whiteColor
+        textPaint.color = themeColor
 
 
         // method requires api level 21
