@@ -30,6 +30,7 @@ jobs:
       - run:
           name: Generate local.properties
           command: |
+            pwd
             touch local.properties
             echo ossrhPassword=$ossrhPassword >> local.properties
             echo ossrhUsername=$ossrhUsername >> local.properties
@@ -73,6 +74,12 @@ jobs:
       - checkout
       - restore_cache:
           keys: [ app-build ]
+      - run:
+          name: Check env variables
+          command: |
+            pwd
+            ls
+
       - run:
           name: Publish Library
           command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
