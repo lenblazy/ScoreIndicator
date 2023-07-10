@@ -70,7 +70,7 @@ jobs:
             echo signing.keyId=$sonar_keyId >> local.properties
       - run:
           name: Publish Library
-          command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
+          command: ./gradlew ScoreIndicator:closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
