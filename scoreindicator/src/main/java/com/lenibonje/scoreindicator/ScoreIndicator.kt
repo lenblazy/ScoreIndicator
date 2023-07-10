@@ -17,7 +17,6 @@ import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.utils.Constants.START_X
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
-import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.GlobalVars
@@ -99,7 +98,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
                 textPaint.apply {
                     color = getColor(R.styleable.score_indicator_textColor, Color.WHITE)
-                    textSize = screenComputations.dpToPx(TEXT_SIZE)
+                    textSize = screenComputations.dpToPx(GlobalVars.textSize)
                     isFakeBoldText = true
                     isAntiAlias = true
                     setShadowLayer(
@@ -162,7 +161,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
     private fun calculateDimensions(desiredWidth: Int) {
         textSize = desiredWidth * 0.045
-        strokeWidth = desiredWidth * 0.025
+        textPaint.textSize = screenComputations.dpToPx(textSize)
+
+        strokeWidth = desiredWidth * 0.025 //used
 
         bigDollarSize = desiredWidth * 0.2 //used
         smallDollarSize = desiredWidth * 0.15 //used
@@ -170,7 +171,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         arcWidth = desiredWidth * 0.9 //used
         dotSize = desiredWidth * 0.03 //used
 
-        lineWidth = desiredWidth * 0.18
+        lineWidth = desiredWidth * 0.18 //used
 
     }
 
@@ -210,7 +211,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 left = screenComputations.dpToPx(START_X + 1),
                 top = screenComputations.dpToPx(START_X + 1),
                 right = screenComputations.dpToPx(arcWidth - 1),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
                 paint = blackPaint,
                 useCenter = true
             )
