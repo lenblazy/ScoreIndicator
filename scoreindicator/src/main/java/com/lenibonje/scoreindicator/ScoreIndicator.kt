@@ -18,7 +18,6 @@ import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.utils.Constants.START_X
-import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH
 import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
@@ -29,6 +28,7 @@ import com.lenibonje.scoreindicator.utils.GlobalVars.bigDollarSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.dotSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.lineWidth
 import com.lenibonje.scoreindicator.utils.GlobalVars.smallDollarSize
+import com.lenibonje.scoreindicator.utils.GlobalVars.stickLength
 import com.lenibonje.scoreindicator.utils.GlobalVars.strokeWidth
 import com.lenibonje.scoreindicator.utils.GlobalVars.textSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.widgetHeight
@@ -154,6 +154,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             screenComputations.dpToPx(widgetHeight + paddingTop + paddingBottom + 10).toInt()
 
         calculateDimensions(desiredWidth)
+        stickLength = desiredHeight * 0.1
 
         setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
             measureDimension(desiredHeight, heightMeasureSpec)
@@ -168,12 +169,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         bigDollarSize = desiredWidth * 0.2
         smallDollarSize = desiredWidth * 0.15
 
-        arcWidth = desiredWidth * 0.75
+        arcWidth = desiredWidth * 0.9
         dotSize = desiredWidth * 0.03
 
         lineWidth = desiredWidth * 0.18
 
-//        var stickLength = widgetHeight * 0.1
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -315,15 +315,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
                 )
                 lineTo(
-                    screenComputations.dpToPx(arcWidth / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx(arcWidth / 2 - stickLength),
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
                 )
 
                 // public void arcTo(float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean forceMoveTo)
                 arcTo(
-                    screenComputations.dpToPx(arcWidth / 2 - STICK_LENGTH - 30),
+                    screenComputations.dpToPx(arcWidth / 2 - stickLength - 30),
                     screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2),
-                    screenComputations.dpToPx(arcWidth / 2 - STICK_LENGTH),
+                    screenComputations.dpToPx(arcWidth / 2 - stickLength),
                     screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2),
                     90F,
                     180F,
