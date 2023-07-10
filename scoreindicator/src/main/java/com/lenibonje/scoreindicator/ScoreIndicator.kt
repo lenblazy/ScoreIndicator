@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.View
 import com.lenibonje.scoreindicator.utils.Constants
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
-import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
@@ -166,10 +165,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         textSize = desiredWidth * 0.045
         strokeWidth = desiredWidth * 0.025
 
-        bigDollarSize = desiredWidth * 0.2
-        smallDollarSize = desiredWidth * 0.15
+        bigDollarSize = desiredWidth * 0.2 //used
+        smallDollarSize = desiredWidth * 0.15 //used
 
-        arcWidth = desiredWidth * 0.9
+        arcWidth = desiredWidth * 0.9 //used
         dotSize = desiredWidth * 0.03
 
         lineWidth = desiredWidth * 0.18
@@ -263,9 +262,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             // colorless line
             drawLine(
                 screenComputations.dpToPx(START_X + 2 + LINE_WIDTH),
-                screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE),
+                screenComputations.dpToPx(WIDGET_HEIGHT + dotSize),
                 screenComputations.dpToPx(arcWidth - 2 - LINE_WIDTH),
-                screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE),
+                screenComputations.dpToPx(WIDGET_HEIGHT + dotSize),
                 colorlessPaint
             )
 
@@ -305,26 +304,26 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             drawCircle(
                 screenComputations.dpToPx(arcWidth / 2),
                 screenComputations.dpToPx(WIDGET_HEIGHT),
-                screenComputations.dpToPx(DOT_SIZE),
+                screenComputations.dpToPx(dotSize),
                 stickPaint
             )
             // stick path
             stickPath.apply {
                 moveTo(
                     screenComputations.dpToPx(arcWidth / 2),
-                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
+                    screenComputations.dpToPx(WIDGET_HEIGHT + dotSize / 2)
                 )
                 lineTo(
                     screenComputations.dpToPx(arcWidth / 2 - stickLength),
-                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2)
+                    screenComputations.dpToPx(WIDGET_HEIGHT + dotSize / 2)
                 )
 
                 // public void arcTo(float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean forceMoveTo)
                 arcTo(
                     screenComputations.dpToPx(arcWidth / 2 - stickLength - 30),
-                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT - dotSize / 2),
                     screenComputations.dpToPx(arcWidth / 2 - stickLength),
-                    screenComputations.dpToPx(WIDGET_HEIGHT + DOT_SIZE / 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT + dotSize / 2),
                     90F,
                     180F,
                     false
@@ -332,7 +331,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
                 lineTo(
                     screenComputations.dpToPx(arcWidth / 2),
-                    screenComputations.dpToPx(WIDGET_HEIGHT - DOT_SIZE / 2)
+                    screenComputations.dpToPx(WIDGET_HEIGHT - dotSize / 2)
                 )
             }
             // Save the current canvas state
