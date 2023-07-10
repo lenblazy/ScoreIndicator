@@ -68,6 +68,7 @@ jobs:
             echo signing.key=$signing_key >> local.properties
             echo signing.password=$signing_password >> local.properties
             echo signing.keyId=$signing_keyId >> local.properties
+            echo sonatypeStagingProfileId=$sonatypeStagingProfileId >> local.properties
             cat local.properties
             pwd
             ls
