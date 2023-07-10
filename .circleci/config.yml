@@ -68,7 +68,7 @@ jobs:
             echo signing.key=$signing_key >> local.properties
             echo signing.password=$sonar_password >> local.properties
             echo signing.keyId=$sonar_keyId >> local.properties
-            cat local.preoperties
+            cat local.properties
             pwd
       - run:
           name: Publish Library
