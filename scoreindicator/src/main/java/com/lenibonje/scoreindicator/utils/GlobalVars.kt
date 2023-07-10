@@ -23,5 +23,4 @@ object GlobalVars {
     var lineWidth = widgetWidth * 0.18
 
     var stickLength = widgetHeight * 0.1
-
 }

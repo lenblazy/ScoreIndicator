@@ -2,13 +2,13 @@ package com.lenibonje.scoreindicator
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.content.res.Configuration
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -35,9 +35,8 @@ import com.lenibonje.scoreindicator.utils.GlobalVars.widgetWidth
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 import com.lenibonje.scoreindicator.utils.drawSemicircle
 
-
-class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
-    : View(context, attributeSet) {
+class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
+    View(context, attributeSet) {
 
     private var paint = Paint()
     private var grayPaint = Paint()
@@ -91,8 +90,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 )
 
                 score = getFloat(R.styleable.score_indicator_score, ZERO)
-                if (animate) animateRotation(score, animateDuration.toLong())
-                else percent = score
+                if (animate) {
+                    animateRotation(score, animateDuration.toLong())
+                } else {
+                    percent = score
+                }
 
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
 
@@ -164,26 +166,25 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         calculateDimensions(desiredWidth)
         stickLength = desiredHeight * 0.1
 
-        setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
+        setMeasuredDimension(
+            measureDimension(desiredWidth, widthMeasureSpec),
             measureDimension(desiredHeight, heightMeasureSpec)
         )
-
     }
 
     private fun calculateDimensions(desiredWidth: Int) {
         textSize = desiredWidth * 0.045
         textPaint.textSize = screenComputations.dpToPx(textSize)
 
-        strokeWidth = desiredWidth * 0.025 //used
+        strokeWidth = desiredWidth * 0.025 // used
 
-        bigDollarSize = desiredWidth * 0.2 //used
-        smallDollarSize = desiredWidth * 0.15 //used
+        bigDollarSize = desiredWidth * 0.2 // used
+        smallDollarSize = desiredWidth * 0.15 // used
 
-        arcWidth = desiredWidth * 0.9 //used
-        dotSize = desiredWidth * 0.03 //used
+        arcWidth = desiredWidth * 0.9 // used
+        dotSize = desiredWidth * 0.03 // used
 
-        lineWidth = desiredWidth * 0.18 //used
-
+        lineWidth = desiredWidth * 0.18 // used
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -217,7 +218,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
         stickPaint.color = whiteColor
         textPaint.color = themeColor
-
 
         // method requires api level 21
         canvas?.apply {
