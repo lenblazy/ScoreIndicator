@@ -27,6 +27,7 @@ import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
+import com.lenibonje.scoreindicator.utils.GlobalVars.widgetHeight
 import com.lenibonje.scoreindicator.utils.GlobalVars.widgetWidth
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 import com.lenibonje.scoreindicator.utils.drawSemicircle
@@ -143,26 +144,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        setMeasuredDimension(
-//            screenComputations.dpToPx(WIDGET_WIDTH + paddingStart + paddingEnd).toInt(),
-//            screenComputations.dpToPx(WIDGET_HEIGHT + paddingTop + paddingBottom + 10).toInt()
-//        )
-
-        Log.e("[View name] onMeasure w", MeasureSpec.toString(widthMeasureSpec));
-        Log.e("[View name] onMeasure h", MeasureSpec.toString(heightMeasureSpec));
-
-
-        Log.e("Chart onMeasure w", MeasureSpec.toString(widthMeasureSpec))
-        Log.e("Chart onMeasure h", MeasureSpec.toString(heightMeasureSpec))
-
         val desiredWidth =
             screenComputations.dpToPx(widgetWidth.toDouble() + paddingStart + paddingEnd).toInt()
-//            suggestedMinimumWidth + paddingLeft + paddingRight
         val desiredHeight =
-            screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() + paddingTop + paddingBottom + 10).toInt()
-//            suggestedMinimumHeight + paddingTop + paddingBottom
-
-//        widgetWidth = measureDimension(desiredWidth, widthMeasureSpec)
+            screenComputations.dpToPx(widgetHeight + paddingTop + paddingBottom + 10).toInt()
 
         setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
             measureDimension(desiredHeight, heightMeasureSpec)
@@ -175,15 +160,11 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         val specMode = MeasureSpec.getMode(measureSpec)
         val specSize = MeasureSpec.getSize(measureSpec)
         if (specMode == MeasureSpec.EXACTLY) {
-            Log.e("ChartView", "imekuja apa kwa specMode == MeasureSpec.EXACTLY")
-            Log.e("ChartView", "size == ${MeasureSpec.getSize(MeasureSpec.EXACTLY)}")
             result = specSize
         } else {
             result = desiredSize
             if (specMode == MeasureSpec.AT_MOST) {
-                Log.e("ChartView", "imekuja apa kwa specMode == MeasureSpec.AT_MOST")
                 result = Math.min(result, specSize)
-                Log.e("ChartView", "result size is $result")
             }
         }
         if (result < desiredSize) {
@@ -202,7 +183,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 left = screenComputations.dpToPx(START_X),
                 top = screenComputations.dpToPx(START_X),
                 right = screenComputations.dpToPx(ARC_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2),
                 paint = grayPaint
             )
             // outer arc
@@ -223,7 +204,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                     screenComputations.dpToPx(START_X + 2),
                     screenComputations.dpToPx(START_X + 2),
                     screenComputations.dpToPx(ARC_WIDTH - 2),
-                    screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() * 2 - 2),
+                    screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 2),
                     i * segmentAngle,
                     segmentAngle,
                     true,
@@ -298,6 +279,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
                 screenComputations.dpToPx(WIDGET_HEIGHT * 0.6),
                 null
             )
+
             // indicator circle
             drawCircle(
                 screenComputations.dpToPx(ARC_WIDTH / 2),
