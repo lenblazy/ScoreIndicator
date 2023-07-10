@@ -72,7 +72,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [ app-build ]
+          keys: [ app-build ]
       - run:
           name: Publish Library
           command: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
