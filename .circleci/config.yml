@@ -30,13 +30,14 @@ jobs:
       - run:
           name: Generate local.properties
           command: |
-            pwd
             touch local.properties
             echo ossrhPassword=$ossrhPassword >> local.properties
             echo ossrhUsername=$ossrhUsername >> local.properties
             echo signing.key=$signing_key >> local.properties
             echo signing.password=$sonar_password >> local.properties
             echo signing.keyId=$sonar_keyId >> local.properties
+            pwd
+            ls
 
   build:
     <<: *defaults
