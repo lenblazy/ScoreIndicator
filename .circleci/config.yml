@@ -23,22 +23,6 @@ jobs:
             echo sonar.kotlin.detekt.reportPaths=$sonar_kotlin_detekt_reportPaths >> sonar-project.properties
             echo sonar.dependencyCheck.htmlReportPath=$sonar_dependencyCheck_htmlReportPath >> sonar-project.properties
 
-  createLocalEnv:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Generate local.properties
-          command: |
-            touch local.properties
-            echo ossrhPassword=$ossrhPassword >> local.properties
-            echo ossrhUsername=$ossrhUsername >> local.properties
-            echo signing.key=$signing_key >> local.properties
-            echo signing.password=$sonar_password >> local.properties
-            echo signing.keyId=$sonar_keyId >> local.properties
-            pwd
-            ls
-
   build:
     <<: *defaults
     steps:
@@ -76,11 +60,14 @@ jobs:
       - restore_cache:
           keys: [ app-build ]
       - run:
-          name: Check env variables
+          name: Generate local.properties
           command: |
-            pwd
-            ls
-
+            touch local.properties
+            echo ossrhPassword=$ossrhPassword >> local.properties
+            echo ossrhUsername=$ossrhUsername >> local.properties
+            echo signing.key=$signing_key >> local.properties
+            echo signing.password=$sonar_password >> local.properties
+            echo signing.keyId=$sonar_keyId >> local.properties
       - run:
           name: Publish Library
           command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
@@ -90,15 +77,12 @@ workflows:
   scoreIndicator:
     jobs:
       - createSonarEnv
-      - createLocalEnv
       - build:
           requires:
             - createSonarEnv
-            - createLocalEnv
       - test:
           requires:
             - createSonarEnv
-            - createLocalEnv
       - publish:
           requires:
             - build
