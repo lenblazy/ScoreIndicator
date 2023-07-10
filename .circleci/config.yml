@@ -66,8 +66,8 @@ jobs:
             echo ossrhPassword=$ossrhPassword >> local.properties
             echo ossrhUsername=$ossrhUsername >> local.properties
             echo signing.key=$signing_key >> local.properties
-            echo signing.password=$sonar_password >> local.properties
-            echo signing.keyId=$sonar_keyId >> local.properties
+            echo signing.password=$signing_password >> local.properties
+            echo signing.keyId=$signing_keyId >> local.properties
             cat local.properties
             pwd
       - run:
