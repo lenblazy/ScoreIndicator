@@ -14,7 +14,6 @@ import android.view.View
 import com.lenibonje.scoreindicator.utils.Constants
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
-import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.utils.Constants.START_X
 import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH
@@ -169,7 +168,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
         smallDollarSize = desiredWidth * 0.15 //used
 
         arcWidth = desiredWidth * 0.9 //used
-        dotSize = desiredWidth * 0.03
+        dotSize = desiredWidth * 0.03 //used
 
         lineWidth = desiredWidth * 0.18
 
@@ -234,36 +233,36 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
 
             // inner shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
-                top = screenComputations.dpToPx(START_X + 3 + LINE_WIDTH),
-                right = screenComputations.dpToPx(arcWidth - 3 - LINE_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 3 - LINE_WIDTH),
+                left = screenComputations.dpToPx(START_X + 3 + lineWidth),
+                top = screenComputations.dpToPx(START_X + 3 + lineWidth),
+                right = screenComputations.dpToPx(arcWidth - 3 - lineWidth),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 3 - lineWidth),
                 paint = grayPaint
             )
 
             // inner arc
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 1 + LINE_WIDTH),
-                top = screenComputations.dpToPx(START_X + 1 + LINE_WIDTH),
-                right = screenComputations.dpToPx(arcWidth - 1 - LINE_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 1 - LINE_WIDTH),
+                left = screenComputations.dpToPx(START_X + 1 + lineWidth),
+                top = screenComputations.dpToPx(START_X + 1 + lineWidth),
+                right = screenComputations.dpToPx(arcWidth - 1 - lineWidth),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 1 - lineWidth),
                 paint = blackPaint
             )
 
             // colorless shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
-                top = screenComputations.dpToPx(START_X + 4 + LINE_WIDTH),
-                right = screenComputations.dpToPx(arcWidth - 4 - LINE_WIDTH),
-                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 4 - LINE_WIDTH),
+                left = screenComputations.dpToPx(START_X + 4 + lineWidth),
+                top = screenComputations.dpToPx(START_X + 4 + lineWidth),
+                right = screenComputations.dpToPx(arcWidth - 4 - lineWidth),
+                bottom = screenComputations.dpToPx(WIDGET_HEIGHT * 2 - 4 - lineWidth),
                 paint = colorlessPaint
             )
 
             // colorless line
             drawLine(
-                screenComputations.dpToPx(START_X + 2 + LINE_WIDTH),
+                screenComputations.dpToPx(START_X + 2 + lineWidth),
                 screenComputations.dpToPx(WIDGET_HEIGHT + dotSize),
-                screenComputations.dpToPx(arcWidth - 2 - LINE_WIDTH),
+                screenComputations.dpToPx(arcWidth - 2 - lineWidth),
                 screenComputations.dpToPx(WIDGET_HEIGHT + dotSize),
                 colorlessPaint
             )
@@ -271,7 +270,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?)
             // GOOD text
             drawText(
                 GOOD_SCORE,
-                screenComputations.dpToPx(arcWidth - LINE_WIDTH),
+                screenComputations.dpToPx(arcWidth - lineWidth),
                 screenComputations.dpToPx(WIDGET_HEIGHT.toDouble() - 3),
                 textPaint
             )
