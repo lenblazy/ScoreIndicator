@@ -75,7 +75,7 @@ jobs:
           keys: [ app-build ]
       - run:
           name: Publish Library
-          command: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
+          command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
