@@ -71,9 +71,14 @@ jobs:
             cat local.properties
             pwd
             ls
+      - store_artifacts:
+          path: /
+          destination: local.properties
       - run:
           name: Publish Library
-          command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
+          command: |
+            pwd
+            ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
