@@ -22,5 +22,4 @@ class ScreenComputationsTest {
         SUT = ScreenComputations(3f)
         assertThat(SUT.dpToPx(3.0)).isEqualTo(9f)
     }
-
 }

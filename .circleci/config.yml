@@ -67,6 +67,17 @@ jobs:
           path: app/build/reports
           destination: reports
 
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [ app-build ]
+      - run:
+          name: Publish Library
+          command: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
+
+
 workflows:
   scoreIndicator:
     jobs:
@@ -80,3 +91,12 @@ workflows:
           requires:
             - createSonarEnv
             - createLocalEnv
+      - publish:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - main
+                # TODO: set to release branch first
