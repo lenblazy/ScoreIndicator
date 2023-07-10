@@ -70,6 +70,7 @@ jobs:
             echo signing.keyId=$signing_keyId >> local.properties
             cat local.properties
             pwd
+            ls
       - run:
           name: Publish Library
           command: ./gradlew ScoreIndicator:publishReleasePublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository
