@@ -73,8 +73,9 @@ jobs:
       - checkout
       - restore_cache:
           key: [ app-build ]
-
-
+      - run:
+          name: Publish Library
+          command: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
 
 
 workflows:
@@ -90,3 +91,12 @@ workflows:
           requires:
             - createSonarEnv
             - createLocalEnv
+      - publish:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - main
+                # TODO: set to release branch first
