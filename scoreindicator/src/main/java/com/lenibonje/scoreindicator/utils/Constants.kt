@@ -22,7 +22,7 @@ object Constants {
 
     const val ARC_WIDTH = WIDGET_WIDTH * 0.75
     const val DOT_SIZE = WIDGET_WIDTH * 0.03
-    const val START_X = 10.0
+    const val START_X = 20.0
 
     const val LINE_WIDTH = WIDGET_WIDTH * 0.18
     const val STICK_LENGTH = WIDGET_HEIGHT * 0.1

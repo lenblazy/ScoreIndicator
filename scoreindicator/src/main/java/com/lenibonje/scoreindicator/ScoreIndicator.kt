@@ -172,13 +172,13 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             ).toInt()
 
         widgetWidth = measureDimension(desiredWidth, widthMeasureSpec)
-        widgetHeight = widgetWidth / 2.6F
+        widgetHeight = (widgetWidth / 2.6F) + paddingStart + paddingEnd
 
         calculateDimensions(widgetWidth)
 
         setMeasuredDimension(
             widgetWidth,
-            widgetHeight.toInt()
+            widgetHeight.toInt() + startX.toInt()
         )
     }
 
