@@ -9,7 +9,7 @@ object Constants {
     const val GOOD_SCORE = "GOOD"
     const val BAD_SCORE = "POOR"
 
-    const val WIDGET_WIDTH = 130
+    const val WIDGET_WIDTH = 150
     const val WIDGET_HEIGHT = WIDGET_WIDTH * 2.6
 
     const val START_X = 20.0F
@@ -22,5 +22,18 @@ object Constants {
     const val ARC_WIDTH_MULTIPLIER = 0.75F
     const val LINE_WIDTH_MULTIPLIER = 0.18F
     const val STICK_LENGTH_MULTIPLIER = 0.2F
+    const val WIDGET_HEIGHT_MULTIPLIER = 2.6F
+
+    const val TEXT_SIZE_MULTIPLIER_SM = 0.045
+    const val STROKE_WIDTH_MULTIPLIER_SM = 0.025F
+    const val BIG_DOLLAR_SIZE_MULTIPLIER_SM = 0.15F
+    const val SMALL_DOLLAR_SIZE_MULTIPLIER_SM = 0.1F
+    const val DOT_SIZE_MULTIPLIER_SM = 0.03F
+    const val ARC_WIDTH_MULTIPLIER_SM = 0.75F
+    const val LINE_WIDTH_MULTIPLIER_SM = 0.18F
+    const val STICK_LENGTH_MULTIPLIER_SM = 0.05F
+    const val WIDGET_HEIGHT_MULTIPLIER_SM = 2.6F
+    const val START_X_SM = 10.0F
+
 
 }
