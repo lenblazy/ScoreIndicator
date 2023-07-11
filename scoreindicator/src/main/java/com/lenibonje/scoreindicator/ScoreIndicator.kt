@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
@@ -63,6 +62,26 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
     private val lightThemeColor: Int
     private val darkThemeColor: Int
+
+    // dp sizes
+    private val oneDp: Float
+        get() = screenComputations.dpToPx(1.0)
+
+    private val twoDp: Float
+        get() = screenComputations.dpToPx(2.0)
+
+    private val threeDp: Float
+        get() = screenComputations.dpToPx(3.0)
+
+    private val fourDp: Float
+        get() = screenComputations.dpToPx(4.0)
+
+    private val fiveDp: Float
+        get() = screenComputations.dpToPx(5.0)
+
+    private val thirtyDp: Float
+        get() = screenComputations.dpToPx(30.0)
+
 
     private var segmentColors: IntArray = intArrayOf(
         Color.parseColor("#2F6C00"),
@@ -132,13 +151,13 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             isAntiAlias = true
             color = Color.parseColor("#E0E0E0")
             style = Paint.Style.STROKE
-            strokeWidth = screenComputations.dpToPx(GlobalVars.strokeWidth)
+
         }
 
         blackPaint.apply {
             color = Color.BLACK
             style = Paint.Style.STROKE
-            strokeWidth = screenComputations.dpToPx(1.0)
+            strokeWidth = oneDp
             isAntiAlias = true
         }
 
@@ -153,7 +172,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             ).toInt()
 
         widgetWidth = measureDimension(desiredWidth, widthMeasureSpec)
-        widgetHeight = widgetWidth / 2.6
+        widgetHeight = widgetWidth / 2.6F
 
         calculateDimensions(widgetWidth)
 
@@ -167,7 +186,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         textSize = desiredWidth * 0.045
         textPaint.textSize = textSize.toFloat()
 
-        strokeWidth = desiredWidth * 0.025
+        strokeWidth = desiredWidth * 0.025F
+        grayPaint.strokeWidth = strokeWidth
 
         bigDollarSize = desiredWidth * 0.2
         bigDollar = Bitmap.createScaledBitmap(
@@ -188,7 +208,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
         arcWidth = desiredWidth * 0.75F
         dotSize = desiredWidth * 0.03
-        stickLength = desiredWidth * 0.25
+        stickLength = desiredWidth * 0.15
 
         lineWidth = desiredWidth * 0.18
 
@@ -231,17 +251,19 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         canvas?.apply {
             // outer shadow
             drawSemicircle(
-                left = startX, top = startX,
-                right = arcWidth, bottom = (widgetHeight * 2).toFloat(),
+                left = startX,
+                top = startX,
+                right = arcWidth,
+                bottom = (widgetHeight * 2),
                 paint = grayPaint
             )
 
             // outer arc
             drawSemicircle(
-                left = (startX + 1),
-                top = (startX + 1),
-                right = (arcWidth - 1),
-                bottom = (widgetHeight * 2).toFloat(),
+                left = (startX + oneDp),
+                top = (startX + oneDp),
+                right = (arcWidth - oneDp),
+                bottom = (widgetHeight * 2),
                 paint = blackPaint,
                 useCenter = true
             )
@@ -251,10 +273,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             for (i in 0 until NUM_OF_SEGMENTS) {
                 paint.color = segmentColors[i]
                 drawArc(
-                    (startX + 2),
-                    (startX + 2),
-                    (arcWidth - 2),
-                    (widgetHeight * 2 - 2).toFloat(),
+                    (startX + twoDp),
+                    (startX + twoDp),
+                    (arcWidth - twoDp),
+                    (widgetHeight * 2 - twoDp),
                     i * segmentAngle,
                     segmentAngle,
                     true,
@@ -264,36 +286,36 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // inner shadow
             drawSemicircle(
-                left = (startX + 3 + lineWidth).toFloat(),
-                top = (startX + 3 + lineWidth).toFloat(),
-                right = (arcWidth - 3 - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - 3 - lineWidth).toFloat(),
+                left = (startX + threeDp + lineWidth).toFloat(),
+                top = (startX + threeDp + lineWidth).toFloat(),
+                right = (arcWidth - threeDp - lineWidth).toFloat(),
+                bottom = (widgetHeight * 2 - threeDp - lineWidth).toFloat(),
                 paint = grayPaint
             )
 
             // inner arc
             drawSemicircle(
-                left = (startX + 1 + lineWidth).toFloat(),
-                top = (startX + 1 + lineWidth).toFloat(),
-                right = (arcWidth - 1 - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - 1 - lineWidth).toFloat(),
+                left = (startX + oneDp + lineWidth).toFloat(),
+                top = (startX + oneDp + lineWidth).toFloat(),
+                right = (arcWidth - oneDp - lineWidth).toFloat(),
+                bottom = (widgetHeight * 2 - oneDp - lineWidth).toFloat(),
                 paint = blackPaint
             )
 
             // colorless shadow
             drawSemicircle(
-                left = (startX + 4 + lineWidth).toFloat(),
-                top = (startX + 4 + lineWidth).toFloat(),
-                right = (arcWidth - 4 - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - 4 - lineWidth).toFloat(),
+                left = (startX + fourDp + lineWidth).toFloat(),
+                top = (startX + fourDp + lineWidth).toFloat(),
+                right = (arcWidth - fourDp - lineWidth).toFloat(),
+                bottom = (widgetHeight * 2 - fourDp - lineWidth).toFloat(),
                 paint = colorlessPaint
             )
 
             // colorless line
             drawLine(
-                (startX + 2 + lineWidth).toFloat(),
+                (startX + twoDp + lineWidth).toFloat(),
                 (widgetHeight + dotSize).toFloat(),
-                (arcWidth - 2 - lineWidth).toFloat(),
+                (arcWidth - twoDp - lineWidth).toFloat(),
                 (widgetHeight + dotSize).toFloat(),
                 colorlessPaint
             )
@@ -302,15 +324,15 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             drawText(
                 GOOD_SCORE,
                 (arcWidth - lineWidth).toFloat(),
-                (widgetHeight - 3).toFloat(),
+                (widgetHeight - threeDp),
                 textPaint
             )
 
             // Bad text
             drawText(
                 BAD_SCORE,
-                (startX + 5),
-                (widgetHeight - 3).toFloat(),
+                (startX + fiveDp),
+                (widgetHeight - threeDp),
                 textPaint
             )
 
@@ -333,7 +355,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // indicator circle
             drawCircle(
                 (arcWidth / 2),
-                (widgetHeight).toFloat(),
+                (widgetHeight),
                 (dotSize).toFloat(),
                 stickPaint
             )
@@ -350,7 +372,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 )
 
                 arcTo(
-                    (arcWidth / 2 - stickLength - 30).toFloat(),
+                    (arcWidth / 2 - stickLength - thirtyDp).toFloat(),
                     (widgetHeight - dotSize / 2).toFloat(),
                     (arcWidth / 2 - stickLength).toFloat(),
                     (widgetHeight + dotSize / 2).toFloat(),
@@ -370,7 +392,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             rotate(
                 percent,
                 (arcWidth / 2),
-                (widgetHeight).toFloat()
+                (widgetHeight)
             )
             drawPath(stickPath, stickPaint)
             restore()

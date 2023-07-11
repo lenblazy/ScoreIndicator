@@ -7,12 +7,12 @@ import com.lenibonje.scoreindicator.utils.Constants.WIDGET_WIDTH
 object GlobalVars {
 
     var widgetWidth: Int = WIDGET_WIDTH
-    var widgetHeight: Double = WIDGET_HEIGHT
+    var widgetHeight: Float = WIDGET_HEIGHT.toFloat()
 
     var startX: Float = START_X.toFloat()
 
     var textSize = widgetWidth * 0.045
-    var strokeWidth: Double = widgetWidth * 0.025
+    var strokeWidth: Float = widgetWidth * 0.025F
 
     var bigDollarSize = widgetWidth * 0.2
     var smallDollarSize = widgetWidth * 0.15
