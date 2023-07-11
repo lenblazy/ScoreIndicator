@@ -108,7 +108,8 @@ jobs:
 workflows:
   scoreIndicator:
     jobs:
-      - createSonarEnv
+      - createSonarEnv:
+          context: slack-secrets
       - build:
           requires:
             - createSonarEnv
