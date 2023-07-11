@@ -1,4 +1,4 @@
-# :credit_card: ScoreIndicator
+# ScoreIndicator
 
 <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/6da06487-9103-4e32-aa19-ff1e2a0bd4c4" width="30%">
 
@@ -28,7 +28,6 @@ The `ScoreIndicator` can be used immediately after it is created without any add
 ## :sparkles: Examples
 To use it in xml layout
 
-<br/>
 ```xml
 <com.lenibonje.scoreindicator.ScoreIndicator
     android:layout_width="wrap_content"
@@ -43,17 +42,15 @@ To use it in xml layout
     app:score="150" 
 />
 ```
-<br/>
+
 To use it in code, these values are available publicly once you get the view's object instance:
 
-<br/>
 ```kotlin
     val scoreObj: ScoreIndicator = findViewById(R.id.score_indicator)
     scoreObj.percent = 180F // Float 
     scoreObj.animateDuration = 1000 // Int
     scoreObj.animate = true //Boolean
 ```
-<br/>
 
 ## Versioning and Changes
 Keep updated with the latest version as documented in the [Changelog] file.
