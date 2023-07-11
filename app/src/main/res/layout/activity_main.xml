@@ -8,7 +8,7 @@
 
     <com.lenibonje.scoreindicator.ScoreIndicator
         android:id="@+id/score_indicator"
-        android:layout_width="290dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"

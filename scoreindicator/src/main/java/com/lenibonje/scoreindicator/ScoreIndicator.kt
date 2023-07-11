@@ -10,23 +10,33 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
 import com.lenibonje.scoreindicator.utils.Constants.ARC_WIDTH_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.ARC_WIDTH_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.BIG_DOLLAR_SIZE_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.BIG_DOLLAR_SIZE_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
 import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
 import com.lenibonje.scoreindicator.utils.Constants.SMALL_DOLLAR_SIZE_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.SMALL_DOLLAR_SIZE_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.START_X
+import com.lenibonje.scoreindicator.utils.Constants.START_X_SM
 import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE_MULTIPLIER_SM
+import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.WIDGET_HEIGHT_MULTIPLIER_SM
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.GlobalVars
@@ -62,6 +72,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     var percent: Float = 0F
     var animateDuration: Int = Constants.ANIMATION_DURATION
     var animate: Boolean = true
+    private var isViewSmall = true
 
     private val stickPath = Path()
 
@@ -174,7 +185,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             ).toInt()
 
         widgetWidth = measureDimension(desiredWidth, widthMeasureSpec)
-        widgetHeight = (widgetWidth / 2.6F) + paddingStart + paddingEnd
+        widgetHeight = if (isViewSmall)
+            (widgetWidth / WIDGET_HEIGHT_MULTIPLIER_SM) + paddingStart + paddingEnd
+        else
+            (widgetWidth / WIDGET_HEIGHT_MULTIPLIER) + paddingStart + paddingEnd
 
         calculateDimensions(widgetWidth)
 
@@ -185,13 +199,40 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     }
 
     private fun calculateDimensions(desiredWidth: Int) {
-        textSize = desiredWidth * TEXT_SIZE_MULTIPLIER
-        textPaint.textSize = textSize.toFloat()
+        if (isViewSmall) {
+            textSize = desiredWidth * TEXT_SIZE_MULTIPLIER_SM
+            textPaint.textSize = textSize.toFloat()
 
-        strokeWidth = desiredWidth * STROKE_WIDTH_MULTIPLIER
-        grayPaint.strokeWidth = strokeWidth
+            strokeWidth = desiredWidth * STROKE_WIDTH_MULTIPLIER_SM
+            grayPaint.strokeWidth = strokeWidth
 
-        bigDollarSize = desiredWidth * BIG_DOLLAR_SIZE_MULTIPLIER
+            bigDollarSize = desiredWidth * BIG_DOLLAR_SIZE_MULTIPLIER_SM
+            smallDollarSize = desiredWidth * SMALL_DOLLAR_SIZE_MULTIPLIER_SM
+
+            arcWidth = desiredWidth * ARC_WIDTH_MULTIPLIER_SM
+            dotSize = desiredWidth * DOT_SIZE_MULTIPLIER_SM
+            stickLength = arcWidth * STICK_LENGTH_MULTIPLIER_SM
+            lineWidth = desiredWidth * LINE_WIDTH_MULTIPLIER_SM
+
+            startX = screenComputations.dpToPx(START_X_SM.toDouble())
+        } else {
+            textSize = desiredWidth * TEXT_SIZE_MULTIPLIER
+            textPaint.textSize = textSize.toFloat()
+
+            strokeWidth = desiredWidth * STROKE_WIDTH_MULTIPLIER
+            grayPaint.strokeWidth = strokeWidth
+
+            bigDollarSize = desiredWidth * BIG_DOLLAR_SIZE_MULTIPLIER
+            smallDollarSize = desiredWidth * SMALL_DOLLAR_SIZE_MULTIPLIER
+
+            arcWidth = desiredWidth * ARC_WIDTH_MULTIPLIER
+            dotSize = desiredWidth * DOT_SIZE_MULTIPLIER
+            stickLength = arcWidth * STICK_LENGTH_MULTIPLIER
+            lineWidth = desiredWidth * LINE_WIDTH_MULTIPLIER
+
+            startX = screenComputations.dpToPx(START_X.toDouble())
+        }
+
         bigDollar = Bitmap.createScaledBitmap(
             bigDollar,
             bigDollarSize.toInt(),
@@ -199,7 +240,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             false
         )
 
-        smallDollarSize = desiredWidth * SMALL_DOLLAR_SIZE_MULTIPLIER
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
@@ -208,12 +248,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 false
             )
 
-        arcWidth = desiredWidth * ARC_WIDTH_MULTIPLIER
-        dotSize = desiredWidth * DOT_SIZE_MULTIPLIER
-        stickLength = arcWidth * STICK_LENGTH_MULTIPLIER
-        lineWidth = desiredWidth * LINE_WIDTH_MULTIPLIER
-
-        startX = screenComputations.dpToPx(START_X.toDouble())
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -236,8 +270,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         }
 
         //290dp and above works fine
-        if (result < 386) {
-
+        if (result >= 386) {
+            isViewSmall = false
         }
 
         return result
