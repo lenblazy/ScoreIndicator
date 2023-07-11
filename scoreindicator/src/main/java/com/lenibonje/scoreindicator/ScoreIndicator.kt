@@ -323,16 +323,16 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // GOOD text
             drawText(
                 GOOD_SCORE,
-                (arcWidth - lineWidth).toFloat(),
-                (widgetHeight - threeDp),
+                (arcWidth - lineWidth + fiveDp).toFloat(),
+                (widgetHeight - fiveDp * 2),
                 textPaint
             )
 
             // Bad text
             drawText(
                 BAD_SCORE,
-                (startX + fiveDp),
-                (widgetHeight - threeDp),
+                (startX + fiveDp * 2),
+                (widgetHeight - fiveDp * 2),
                 textPaint
             )
 
