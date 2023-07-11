@@ -23,6 +23,9 @@ inside ` buildscript `
 ## :eyeglasses: Preview
 <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/38b38904-302a-4441-8fe6-ea87ab362107" width="40%">
 <img align="right" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/1a887697-a9c2-4564-a12e-8d5f1cc09d5c" width="40%">
+
+<hr/>
+
 The `ScoreIndicator` can be used immediately after it is created without any additional setup. 
 
 ## :sparkles: Examples
