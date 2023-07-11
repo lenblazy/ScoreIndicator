@@ -170,7 +170,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
         calculateDimensions(widgetWidth)
 
-
         setMeasuredDimension(
             widgetWidth,
             widgetHeight.toInt()
@@ -186,8 +185,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         bigDollarSize = desiredWidth * 0.2
         bigDollar = Bitmap.createScaledBitmap(
             bigDollar,
-            screenComputations.dpToPx(bigDollarSize).toInt(),
-            screenComputations.dpToPx(bigDollarSize).toInt(),
+            bigDollarSize.toInt(),
+            bigDollarSize.toInt(),
             false
         )
 
@@ -195,12 +194,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
-                screenComputations.dpToPx(smallDollarSize).toInt(),
-                screenComputations.dpToPx(smallDollarSize).toInt(),
+                smallDollarSize.toInt(),
+                smallDollarSize.toInt(),
                 false
             )
 
-        arcWidth = desiredWidth * 0.8
+        arcWidth = desiredWidth * 0.7
         dotSize = desiredWidth * 0.03
         stickLength = desiredWidth * 0.25
 
@@ -211,27 +210,23 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         var result: Int
         val specMode = MeasureSpec.getMode(measureSpec)
         val specSize = MeasureSpec.getSize(measureSpec)
+        val screenWidth = screenComputations.getScreenWidth()
+        Log.d("ScoreIndicator", "measureDimension: screenwidth =$screenWidth")
         if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize
+            result = min(specSize, screenWidth)
         } else {
             result = desiredSize
             if (specMode == MeasureSpec.AT_MOST) {
-                result = min(result, specSize)
+                result = min(result, screenWidth)
             }
         }
+        Log.d("ScoreIndicator", "measureDimension: result =$result")
+
         return result
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-        Log.d("Score", "onDraw: widgetHeight $widgetHeight")
-        Log.d("Score", "onDraw: widgetWidth $widgetWidth")
-        Log.d(
-            "Score",
-            "onDraw: widgetHeight is less than or equal to 2.6 widgetWidth?= ${widgetHeight <= widgetWidth / 2.6}"
-        )
-
 
         val currentNightMode =
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
