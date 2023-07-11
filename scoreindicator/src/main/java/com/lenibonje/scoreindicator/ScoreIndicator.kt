@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
@@ -220,13 +221,23 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         val specMode = MeasureSpec.getMode(measureSpec)
         val specSize = MeasureSpec.getSize(measureSpec)
         val screenWidth = screenComputations.getScreenWidth()
-        if (specMode == MeasureSpec.EXACTLY) {
+        if (specMode == MeasureSpec.EXACTLY) { //MATCH_PARENT. HARD-CODED VALUES
             result = min(specSize, screenWidth)
         } else {
             result = desiredSize
+
             if (specMode == MeasureSpec.AT_MOST) {
                 result = min(result, screenWidth)
             }
+        }
+
+        if (result < desiredSize) {
+            result = desiredSize
+        }
+
+        //290dp and above works fine
+        if (result < 386) {
+
         }
 
         return result
