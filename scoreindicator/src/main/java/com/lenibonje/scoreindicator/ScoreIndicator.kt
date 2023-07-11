@@ -91,7 +91,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         get() = screenComputations.dpToPx(2.0)
 
     private val fiveDp: Float
-        get() = screenComputations.dpToPx(5.0)
+        get() = if (isViewSmall)
+            screenComputations.dpToPx(2.0)
+        else screenComputations.dpToPx(5.0)
 
     private val thirtyDp: Float
         get() = screenComputations.dpToPx(30.0)
