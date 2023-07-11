@@ -189,7 +189,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         strokeWidth = desiredWidth * 0.025F
         grayPaint.strokeWidth = strokeWidth
 
-        bigDollarSize = desiredWidth * 0.2
+        bigDollarSize = desiredWidth * 0.15
         bigDollar = Bitmap.createScaledBitmap(
             bigDollar,
             bigDollarSize.toInt(),
@@ -197,7 +197,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             false
         )
 
-        smallDollarSize = desiredWidth * 0.15
+        smallDollarSize = desiredWidth * 0.1
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
@@ -347,8 +347,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // bigger dollar
             drawBitmap(
                 bigDollar,
-                (arcWidth * 1.1).toFloat(),
-                (widgetHeight * 0.7).toFloat(),
+                (arcWidth * 1.03).toFloat(),
+                (widgetHeight * 0.6).toFloat(),
                 null
             )
 
