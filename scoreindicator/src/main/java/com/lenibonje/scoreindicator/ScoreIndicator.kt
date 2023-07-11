@@ -286,19 +286,19 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // inner shadow
             drawSemicircle(
-                left = (startX + threeDp + lineWidth).toFloat(),
-                top = (startX + threeDp + lineWidth).toFloat(),
-                right = (arcWidth - threeDp - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - threeDp - lineWidth).toFloat(),
+                left = (startX + fiveDp + lineWidth).toFloat(),
+                top = (startX + fiveDp + lineWidth).toFloat(),
+                right = (arcWidth - fiveDp - lineWidth).toFloat(),
+                bottom = (widgetHeight * 2 - fiveDp - lineWidth).toFloat(),
                 paint = grayPaint
             )
 
             // inner arc
             drawSemicircle(
-                left = (startX + oneDp + lineWidth).toFloat(),
-                top = (startX + oneDp + lineWidth).toFloat(),
-                right = (arcWidth - oneDp - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - oneDp - lineWidth).toFloat(),
+                left = (startX + lineWidth).toFloat(),
+                top = (startX + lineWidth).toFloat(),
+                right = (arcWidth - lineWidth).toFloat(),
+                bottom = (widgetHeight * 2 - lineWidth).toFloat(),
                 paint = blackPaint
             )
 
