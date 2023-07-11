@@ -31,7 +31,7 @@ jobs:
           path: /tmp/artifacts/sonar
           destination: /tmp/artifacts/sonar/sonar-project.properties
       - slack/notify:
-#          event: fail
+          event: fail
           template: basic_fail_1
 
   build:
@@ -113,10 +113,13 @@ workflows:
       - build:
           requires:
             - createSonarEnv
+          context: slack-secrets
       - test:
           requires:
             - createSonarEnv
+          context: slack-secrets
       - publish:
+          context: slack-secrets
           requires:
             - build
             - test
