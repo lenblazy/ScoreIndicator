@@ -1,14 +1,15 @@
 # ScoreIndicator
+<div id="header" >
+  
+  <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/8fe39556-088e-426b-bc77-5e53a00d2861" width="30%"  />
 
-<img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/6da06487-9103-4e32-aa19-ff1e2a0bd4c4" width="30%">
+  ## :information_source: About
+  ScoreIndicator is a great way to show information to users about their scores. It uses  a 
+  semi-circular score widget that depicts 5 scores with two extreme ends. One is `GOOD` and the other 
+  is `BAD`. In between, the scales is divided into 5 segments with different color patterns. At the 
+  heart of the widget is an animating stick that rates the user's scores.
 
-## :information_source: About
-ScoreIndicator is a great way to show information to users about their scores. It uses  a 
-semi-circular score widget that depicts 5 scores with two extreme ends. One is `GOOD` and the other 
-is `BAD`. In between, the scales is divided into 5 segments with different color patterns. At the 
-heart of the widget is an animating stick that rates the user's scores.
-
-## :wrench: Installation
+  ## :wrench: Installation
 Add the following dependency to your `build.gradle` file:
 ```groovy
 dependencies {
@@ -20,13 +21,20 @@ X.Y.Z is the version number. See [Releases] page and pick latest version.
 :warning: On your top level `build.gradle` add `repositories { mavenCentral() }` to the list of repositories
 inside ` buildscript `
 
+<img width="2000" height="0">
+
+</div>
+
+<br />
+
+
 ## :eyeglasses: Preview
+<div id="images" align="center" >
+  <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/38b38904-302a-4441-8fe6-ea87ab362107" width="40%">
+  <img align="right" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/1a887697-a9c2-4564-a12e-8d5f1cc09d5c" width="40%">
+</div>
 
-<img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/38b38904-302a-4441-8fe6-ea87ab362107" width="40%">
-<img align="right" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/1a887697-a9c2-4564-a12e-8d5f1cc09d5c" width="40%">
-
-<br/>
-<br/>
+<img width="2000" height="0">
 
 ## :sparkles: Examples
 The `ScoreIndicator` can be used immediately after it is created without any additional setup.
