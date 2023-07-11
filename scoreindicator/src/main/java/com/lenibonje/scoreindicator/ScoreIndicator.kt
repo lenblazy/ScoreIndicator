@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
@@ -34,6 +33,7 @@ import com.lenibonje.scoreindicator.utils.GlobalVars.widgetHeight
 import com.lenibonje.scoreindicator.utils.GlobalVars.widgetWidth
 import com.lenibonje.scoreindicator.utils.ScreenComputations
 import com.lenibonje.scoreindicator.utils.drawSemicircle
+import kotlin.math.min
 
 class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     View(context, attributeSet) {
@@ -196,11 +196,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         } else {
             result = desiredSize
             if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize)
+                result = min(result, specSize)
             }
-        }
-        if (result < desiredSize) {
-            Log.e("ChartView", "The view is too small, the content might get cut")
         }
         return result
     }
@@ -208,7 +205,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val isDarkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES
 
         val themeColor = if (isDarkTheme) darkThemeColor else lightThemeColor
