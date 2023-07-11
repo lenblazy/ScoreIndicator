@@ -21,19 +21,16 @@ X.Y.Z is the version number. See [Releases] page and pick latest version.
 inside ` buildscript `
 
 ## :eyeglasses: Preview
-<hr/>
 
 <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/38b38904-302a-4441-8fe6-ea87ab362107" width="40%">
 <img align="right" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/1a887697-a9c2-4564-a12e-8d5f1cc09d5c" width="40%">
 
 <br/>
-
-<hr/>
-
-The `ScoreIndicator` can be used immediately after it is created without any additional setup. 
+<br/>
 
 ## :sparkles: Examples
-To use it in xml layout
+The `ScoreIndicator` can be used immediately after it is created without any additional setup.
+- To use it in xml layout
 
 ```xml
 <com.lenibonje.scoreindicator.ScoreIndicator
@@ -50,7 +47,7 @@ To use it in xml layout
 />
 ```
 
-To use it in code, these values are available publicly once you get the view's object instance:
+- To use it in code, these values are available publicly once you get the view's object instance:
 
 ```kotlin
     val scoreObj: ScoreIndicator = findViewById(R.id.score_indicator)
