@@ -21,6 +21,6 @@ object Constants {
     const val DOT_SIZE_MULTIPLIER = 0.03F
     const val ARC_WIDTH_MULTIPLIER = 0.75F
     const val LINE_WIDTH_MULTIPLIER = 0.18F
-    const val STICK_LENGTH_MULTIPLIER = 0.1F
+    const val STICK_LENGTH_MULTIPLIER = 0.2F
 
 }

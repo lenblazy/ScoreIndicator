@@ -209,7 +209,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
         arcWidth = desiredWidth * ARC_WIDTH_MULTIPLIER
         dotSize = desiredWidth * DOT_SIZE_MULTIPLIER
-        stickLength = desiredWidth * STICK_LENGTH_MULTIPLIER
+        stickLength = arcWidth * STICK_LENGTH_MULTIPLIER
         lineWidth = desiredWidth * LINE_WIDTH_MULTIPLIER
 
         startX = screenComputations.dpToPx(START_X.toDouble())
