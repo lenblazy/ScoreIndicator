@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.1.3] - 2023-08-10
 - Added dynamic size change for the view
 
-## [0.1.2] - 20223-07-10
+## [0.1.2] - 2023-07-10
 - Added support for Light and Dark Themes
 
 ## [0.1.1] - 2023-05-31
