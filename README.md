@@ -30,17 +30,18 @@ To use it in xml layout
 
 <br/>
 ```xml
-    <com.lenibonje.scoreindicator.ScoreIndicator
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:animationDuration="2000"
-        app:animate="true"
-        app:score="150" />
+<com.lenibonje.scoreindicator.ScoreIndicator
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:foregroundGravity="center"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:animationDuration="2000"
+    app:animate="true"
+    app:score="150" 
+/>
 ```
 <br/>
 To use it in code, these values are available publicly once you get the view's object instance:
