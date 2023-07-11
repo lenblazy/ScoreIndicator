@@ -13,11 +13,19 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
+import com.lenibonje.scoreindicator.utils.Constants.ARC_WIDTH_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.BAD_SCORE
+import com.lenibonje.scoreindicator.utils.Constants.BIG_DOLLAR_SIZE_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.DOT_SIZE_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.GOOD_SCORE
+import com.lenibonje.scoreindicator.utils.Constants.LINE_WIDTH_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.NUM_OF_SEGMENTS
+import com.lenibonje.scoreindicator.utils.Constants.SMALL_DOLLAR_SIZE_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.START_X
+import com.lenibonje.scoreindicator.utils.Constants.STICK_LENGTH_MULTIPLIER
+import com.lenibonje.scoreindicator.utils.Constants.STROKE_WIDTH_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.TEXT_SHADOW_SIZE
+import com.lenibonje.scoreindicator.utils.Constants.TEXT_SIZE_MULTIPLIER
 import com.lenibonje.scoreindicator.utils.Constants.WIDGET_WIDTH
 import com.lenibonje.scoreindicator.utils.Constants.ZERO
 import com.lenibonje.scoreindicator.utils.GlobalVars
@@ -70,12 +78,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     private val twoDp: Float
         get() = screenComputations.dpToPx(2.0)
 
-    private val threeDp: Float
-        get() = screenComputations.dpToPx(3.0)
-
-    private val fourDp: Float
-        get() = screenComputations.dpToPx(4.0)
-
     private val fiveDp: Float
         get() = screenComputations.dpToPx(5.0)
 
@@ -125,8 +127,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 }
 
                 colorlessPaint.apply {
-                    color = Color.WHITE
-                    strokeWidth = screenComputations.dpToPx(GlobalVars.strokeWidth * 1.6)
+                    strokeWidth = fiveDp
                     isAntiAlias = true
                 }
 
@@ -183,13 +184,13 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     }
 
     private fun calculateDimensions(desiredWidth: Int) {
-        textSize = desiredWidth * 0.045
+        textSize = desiredWidth * TEXT_SIZE_MULTIPLIER
         textPaint.textSize = textSize.toFloat()
 
-        strokeWidth = desiredWidth * 0.025F
+        strokeWidth = desiredWidth * STROKE_WIDTH_MULTIPLIER
         grayPaint.strokeWidth = strokeWidth
 
-        bigDollarSize = desiredWidth * 0.15
+        bigDollarSize = desiredWidth * BIG_DOLLAR_SIZE_MULTIPLIER
         bigDollar = Bitmap.createScaledBitmap(
             bigDollar,
             bigDollarSize.toInt(),
@@ -197,7 +198,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             false
         )
 
-        smallDollarSize = desiredWidth * 0.1
+        smallDollarSize = desiredWidth * SMALL_DOLLAR_SIZE_MULTIPLIER
         smallDollar =
             Bitmap.createScaledBitmap(
                 smallDollar,
@@ -206,13 +207,12 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 false
             )
 
-        arcWidth = desiredWidth * 0.75F
-        dotSize = desiredWidth * 0.03
-        stickLength = desiredWidth * 0.15
+        arcWidth = desiredWidth * ARC_WIDTH_MULTIPLIER
+        dotSize = desiredWidth * DOT_SIZE_MULTIPLIER
+        stickLength = desiredWidth * STICK_LENGTH_MULTIPLIER
+        lineWidth = desiredWidth * LINE_WIDTH_MULTIPLIER
 
-        lineWidth = desiredWidth * 0.18
-
-        startX = screenComputations.dpToPx(START_X)
+        startX = screenComputations.dpToPx(START_X.toDouble())
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -286,44 +286,44 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // inner shadow
             drawSemicircle(
-                left = (startX + fiveDp + lineWidth).toFloat(),
-                top = (startX + fiveDp + lineWidth).toFloat(),
-                right = (arcWidth - fiveDp - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - fiveDp - lineWidth).toFloat(),
+                left = (startX + fiveDp + lineWidth),
+                top = (startX + fiveDp + lineWidth),
+                right = (arcWidth - fiveDp - lineWidth),
+                bottom = (widgetHeight * 2 - fiveDp - lineWidth),
                 paint = grayPaint
             )
 
             // inner arc
             drawSemicircle(
-                left = (startX + lineWidth).toFloat(),
-                top = (startX + lineWidth).toFloat(),
-                right = (arcWidth - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - lineWidth).toFloat(),
+                left = (startX + lineWidth),
+                top = (startX + lineWidth),
+                right = (arcWidth - lineWidth),
+                bottom = (widgetHeight * 2 - lineWidth),
                 paint = blackPaint
             )
 
             // colorless shadow
             drawSemicircle(
-                left = (startX + fourDp + lineWidth).toFloat(),
-                top = (startX + fourDp + lineWidth).toFloat(),
-                right = (arcWidth - fourDp - lineWidth).toFloat(),
-                bottom = (widgetHeight * 2 - fourDp - lineWidth).toFloat(),
+                left = (startX + fiveDp + lineWidth),
+                top = (startX + fiveDp + lineWidth),
+                right = (arcWidth - fiveDp - lineWidth),
+                bottom = (widgetHeight * 2 - fiveDp - lineWidth),
                 paint = colorlessPaint
             )
 
             // colorless line
             drawLine(
-                (startX + twoDp + lineWidth).toFloat(),
-                (widgetHeight + dotSize).toFloat(),
-                (arcWidth - twoDp - lineWidth).toFloat(),
-                (widgetHeight + dotSize).toFloat(),
+                (startX + lineWidth + oneDp),
+                (widgetHeight + dotSize),
+                (arcWidth - lineWidth - oneDp),
+                (widgetHeight + dotSize),
                 colorlessPaint
             )
 
             // GOOD text
             drawText(
                 GOOD_SCORE,
-                (arcWidth - lineWidth + fiveDp).toFloat(),
+                (arcWidth - lineWidth + fiveDp),
                 (widgetHeight - fiveDp * 2),
                 textPaint
             )
@@ -354,28 +354,28 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // indicator circle
             drawCircle(
-                (arcWidth / 2),
-                (widgetHeight),
-                (dotSize).toFloat(),
+                arcWidth / 2,
+                widgetHeight,
+                dotSize,
                 stickPaint
             )
 
             // stick path
             stickPath.apply {
                 moveTo(
-                    (arcWidth / 2),
-                    (widgetHeight + dotSize / 2).toFloat()
+                    arcWidth / 2,
+                    widgetHeight + dotSize / 2
                 )
                 lineTo(
-                    (arcWidth / 2 - stickLength).toFloat(),
-                    (widgetHeight + dotSize / 2).toFloat()
+                    arcWidth / 2 - stickLength,
+                    widgetHeight + dotSize / 2
                 )
 
                 arcTo(
-                    (arcWidth / 2 - stickLength - thirtyDp).toFloat(),
-                    (widgetHeight - dotSize / 2).toFloat(),
-                    (arcWidth / 2 - stickLength).toFloat(),
-                    (widgetHeight + dotSize / 2).toFloat(),
+                    (arcWidth / 2 - stickLength - thirtyDp),
+                    (widgetHeight - dotSize / 2),
+                    (arcWidth / 2 - stickLength),
+                    (widgetHeight + dotSize / 2),
                     90F,
                     180F,
                     false
@@ -383,7 +383,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
                 lineTo(
                     (arcWidth / 2),
-                    (widgetHeight - dotSize / 2).toFloat()
+                    (widgetHeight - dotSize / 2)
                 )
             }
             // Save the current canvas state
