@@ -95,6 +95,13 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             screenComputations.dpToPx(2.0)
         else screenComputations.dpToPx(5.0)
 
+    private val tenDp: Float
+        get() = if (isViewSmall)
+            screenComputations.dpToPx(5.0)
+        else screenComputations.dpToPx(20.0)
+
+
+
     private val thirtyDp: Float
         get() = screenComputations.dpToPx(30.0)
 
@@ -141,7 +148,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 }
 
                 colorlessPaint.apply {
-                    strokeWidth = fiveDp
+                    strokeWidth = tenDp
                     isAntiAlias = true
                 }
 
@@ -259,11 +266,13 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         val screenWidth = screenComputations.getScreenWidth()
         if (specMode == MeasureSpec.EXACTLY) { //MATCH_PARENT. HARD-CODED VALUES
             result = min(specSize, screenWidth)
+            if (specSize == screenWidth) isViewSmall = false
         } else {
             result = desiredSize
 
             if (specMode == MeasureSpec.AT_MOST) {
                 result = min(result, screenWidth)
+                isViewSmall = true
             }
         }
 
@@ -272,9 +281,9 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         }
 
         //290dp and above works fine
-        if (result >= 386) {
-            isViewSmall = false
-        }
+//        if (result >= 386) {
+//            isViewSmall = false
+//        }
 
         return result
     }

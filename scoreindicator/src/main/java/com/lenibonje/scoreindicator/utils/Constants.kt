@@ -31,7 +31,7 @@ object Constants {
     const val DOT_SIZE_MULTIPLIER_SM = 0.03F
     const val ARC_WIDTH_MULTIPLIER_SM = 0.75F
     const val LINE_WIDTH_MULTIPLIER_SM = 0.18F
-    const val STICK_LENGTH_MULTIPLIER_SM = 0.1F
+    const val STICK_LENGTH_MULTIPLIER_SM = 0.05F
     const val WIDGET_HEIGHT_MULTIPLIER_SM = 2.6F
     const val START_X_SM = 10.0F
 
