@@ -1,4 +1,4 @@
-package com.lenibonje.scoreindicator
+package com.lenibonje.scoreindicator.utils
 
 import android.graphics.Canvas
 import android.graphics.Paint

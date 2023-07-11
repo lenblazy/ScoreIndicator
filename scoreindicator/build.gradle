@@ -16,7 +16,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.lenblazy'
-    PUBLISH_VERSION = '0.1.2'
+    PUBLISH_VERSION = '0.1.1'
     PUBLISH_ARTIFACT_ID = 'ScoreIndicator'
 }
 
@@ -82,6 +82,7 @@ tasks.withType(Test) {
 }
 
 project.tasks["detekt"].dependsOn "formatKotlin"
+project.tasks["detekt"].dependsOn "detektGenerateConfig"
 
 //project.tasks["sonar"].dependsOn "dependencyCheckAnalyze"
 project.tasks["sonar"].dependsOn "jacocoTestReport"
