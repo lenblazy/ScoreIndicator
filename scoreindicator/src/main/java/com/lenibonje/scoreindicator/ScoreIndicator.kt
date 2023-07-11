@@ -27,6 +27,7 @@ import com.lenibonje.scoreindicator.utils.GlobalVars.bigDollarSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.dotSize
 import com.lenibonje.scoreindicator.utils.GlobalVars.lineWidth
 import com.lenibonje.scoreindicator.utils.GlobalVars.smallDollarSize
+import com.lenibonje.scoreindicator.utils.GlobalVars.startX
 import com.lenibonje.scoreindicator.utils.GlobalVars.stickLength
 import com.lenibonje.scoreindicator.utils.GlobalVars.strokeWidth
 import com.lenibonje.scoreindicator.utils.GlobalVars.textSize
@@ -204,6 +205,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         stickLength = desiredWidth * 0.25
 
         lineWidth = desiredWidth * 0.18
+
+        startX = screenComputations.dpToPx(START_X).toDouble()
     }
 
     private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
@@ -242,16 +245,16 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         canvas?.apply {
             // outer shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X),
-                top = screenComputations.dpToPx(START_X),
+                left = startX.toFloat(),
+                top = startX.toFloat(),
                 right = arcWidth.toFloat(),
                 bottom = (widgetHeight * 2).toFloat(),
                 paint = grayPaint
             )
             // outer arc
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 1),
-                top = screenComputations.dpToPx(START_X + 1),
+                left = (startX + 1).toFloat(),
+                top = (startX + 1).toFloat(),
                 right = (arcWidth - 1).toFloat(),
                 bottom = (widgetHeight * 2).toFloat(),
                 paint = blackPaint,
@@ -263,8 +266,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             for (i in 0 until NUM_OF_SEGMENTS) {
                 paint.color = segmentColors[i]
                 drawArc(
-                    screenComputations.dpToPx(START_X + 2),
-                    screenComputations.dpToPx(START_X + 2),
+                    (startX + 2).toFloat(),
+                    (startX + 2).toFloat(),
                     (arcWidth - 2).toFloat(),
                     (widgetHeight * 2 - 2).toFloat(),
                     i * segmentAngle,
@@ -276,8 +279,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // inner shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 3 + lineWidth),
-                top = screenComputations.dpToPx(START_X + 3 + lineWidth),
+                left = (startX + 3 + lineWidth).toFloat(),
+                top = (startX + 3 + lineWidth).toFloat(),
                 right = (arcWidth - 3 - lineWidth).toFloat(),
                 bottom = (widgetHeight * 2 - 3 - lineWidth).toFloat(),
                 paint = grayPaint
@@ -285,8 +288,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // inner arc
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 1 + lineWidth),
-                top = screenComputations.dpToPx(START_X + 1 + lineWidth),
+                left = (startX + 1 + lineWidth).toFloat(),
+                top = (startX + 1 + lineWidth).toFloat(),
                 right = (arcWidth - 1 - lineWidth).toFloat(),
                 bottom = (widgetHeight * 2 - 1 - lineWidth).toFloat(),
                 paint = blackPaint
@@ -294,8 +297,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // colorless shadow
             drawSemicircle(
-                left = screenComputations.dpToPx(START_X + 4 + lineWidth),
-                top = screenComputations.dpToPx(START_X + 4 + lineWidth),
+                left = (startX + 4 + lineWidth).toFloat(),
+                top = (startX + 4 + lineWidth).toFloat(),
                 right = (arcWidth - 4 - lineWidth).toFloat(),
                 bottom = (widgetHeight * 2 - 4 - lineWidth).toFloat(),
                 paint = colorlessPaint
@@ -303,8 +306,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // colorless line
             drawLine(
-                screenComputations.dpToPx(START_X + 2 + lineWidth),
-                screenComputations.dpToPx(widgetHeight + dotSize),
+                (startX + 2 + lineWidth).toFloat(),
+                (widgetHeight + dotSize).toFloat(),
                 (arcWidth - 2 - lineWidth).toFloat(),
                 (widgetHeight + dotSize).toFloat(),
                 colorlessPaint
@@ -321,7 +324,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // Bad text
             drawText(
                 BAD_SCORE,
-                screenComputations.dpToPx(START_X + 5),
+                (startX + 5).toFloat(),
                 (widgetHeight - 3).toFloat(),
                 textPaint
             )
@@ -330,7 +333,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             drawBitmap(
                 smallDollar,
                 (arcWidth * 0.9).toFloat(),
-                screenComputations.dpToPx(START_X),
+                startX.toFloat(),
                 null
             )
 
@@ -349,6 +352,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 (dotSize).toFloat(),
                 stickPaint
             )
+
             // stick path
             stickPath.apply {
                 moveTo(
