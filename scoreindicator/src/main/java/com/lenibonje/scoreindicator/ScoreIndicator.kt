@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.lenibonje.scoreindicator.utils.Constants
@@ -266,9 +265,6 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         if (specMode == MeasureSpec.EXACTLY) { //MATCH_PARENT. HARD-CODED VALUES
             result = min(specSize, screenWidth)
             isViewSmall = specSize != screenWidth
-
-            Log.d("Score indicator", "measureDimension: specSize=$specSize")
-
             if (isViewSmall) isViewSmall = specSize < 290
         } else {
             result = desiredSize
@@ -279,14 +275,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             }
         }
 
-        if (result < desiredSize) {
-            result = desiredSize
-        }
-
-        //290dp and above works fine
-//        if (result >= 386) {
-//            isViewSmall = false
-//        }
+        if (result < desiredSize) result = desiredSize
 
         return result
     }
