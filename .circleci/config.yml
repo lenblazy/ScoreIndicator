@@ -126,5 +126,5 @@ workflows:
           filters:
             branches:
               only:
-                - release/1.0.0
+                - release/1.0.1
                 # TODO: set to release branch first
