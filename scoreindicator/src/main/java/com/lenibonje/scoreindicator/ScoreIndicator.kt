@@ -69,9 +69,10 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
     private var smallDollar: Bitmap
 
     private var score = ZERO
-    var percent: Float = 0F
-    var animateDuration: Int = Constants.ANIMATION_DURATION
-    var animate: Boolean = true
+    private var percent: Float = 0F
+
+    private var animateDuration: Int = Constants.ANIMATION_DURATION
+    private var animate: Boolean = true
     private var isViewSmall = true
 
     private val stickPath = Path()
@@ -447,7 +448,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
         }
     }
 
-    private fun animateRotation(degrees: Float, duration: Long) {
+     fun animateRotation(degrees: Float, duration: Long) {
         val animator = ValueAnimator.ofFloat(percent, degrees)
         animator.addUpdateListener { valueAnimator ->
             percent = valueAnimator.animatedValue as Float
