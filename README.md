@@ -1,4 +1,4 @@
-# ScoreIndicator
+# ScoreIndicator [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 <div id="header" >
   
   <img align="left" src="https://github.com/lenblazy/ScoreIndicator/assets/18615656/8fe39556-088e-426b-bc77-5e53a00d2861" width="30%"  />
