@@ -9,7 +9,7 @@ object Constants {
     const val GOOD_SCORE = "GOOD"
     const val BAD_SCORE = "POOR"
 
-    const val WIDGET_WIDTH = 150
+    const val WIDGET_WIDTH = 140
     const val WIDGET_HEIGHT = WIDGET_WIDTH * 2.6
 
     const val START_X = 20.0F
