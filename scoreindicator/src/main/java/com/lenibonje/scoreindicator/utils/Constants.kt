@@ -18,7 +18,7 @@ object Constants {
     const val STROKE_WIDTH_MULTIPLIER = 0.025F
     const val BIG_DOLLAR_SIZE_MULTIPLIER = 0.15F
     const val SMALL_DOLLAR_SIZE_MULTIPLIER = 0.1F
-    const val DOT_SIZE_MULTIPLIER = 0.04F
+    const val DOT_SIZE_MULTIPLIER = 0.03F
     const val ARC_WIDTH_MULTIPLIER = 0.75F
     const val LINE_WIDTH_MULTIPLIER = 0.18F
     const val STICK_LENGTH_MULTIPLIER = 0.25F
@@ -28,7 +28,7 @@ object Constants {
     const val STROKE_WIDTH_MULTIPLIER_SM = 0.025F
     const val BIG_DOLLAR_SIZE_MULTIPLIER_SM = 0.15F
     const val SMALL_DOLLAR_SIZE_MULTIPLIER_SM = 0.1F
-    const val DOT_SIZE_MULTIPLIER_SM = 0.04F
+    const val DOT_SIZE_MULTIPLIER_SM = 0.03F
     const val ARC_WIDTH_MULTIPLIER_SM = 0.75F
     const val LINE_WIDTH_MULTIPLIER_SM = 0.18F
     const val STICK_LENGTH_MULTIPLIER_SM = 0.25F

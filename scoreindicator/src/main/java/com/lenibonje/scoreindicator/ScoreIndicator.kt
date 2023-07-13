@@ -412,7 +412,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // stick path
             stickPath.apply {
                 var currentX = (arcWidth + tenDp) / 2
-                val currentY = widgetHeight + dotSize / 2 - (fiveDp * 2)
+                val currentY = widgetHeight + dotSize / 2 - fiveDp
                 moveTo(currentX, currentY)
 
                 currentX -= stickLength
@@ -430,7 +430,7 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                 )
 
                 lineTo(
-                    (arcWidth + tenDp) / 2 , widgetHeight + dotSize / 2 + fiveDp
+                    (arcWidth + tenDp) / 2, widgetHeight + dotSize / 2 + fiveDp
                 )
 
             }
@@ -439,8 +439,8 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
             // Set the pivot point for rotation
             rotate(
                 percent,
-                (arcWidth / 2),
-                (widgetHeight)
+                (arcWidth + tenDp) / 2,
+                widgetHeight + dotSize / 2
             )
             drawPath(stickPath, stickPaint)
             restore()
