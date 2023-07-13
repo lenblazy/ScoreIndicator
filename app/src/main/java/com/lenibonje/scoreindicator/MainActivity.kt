@@ -9,6 +9,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val scoreIndicator = findViewById<ScoreIndicator>(R.id.score_indicator)
-        scoreIndicator.animateRotation(160F, 3000L)
+        scoreIndicator.animateRotation(84F, 2000L)
     }
 }

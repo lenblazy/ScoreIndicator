@@ -403,52 +403,51 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
 
             // indicator circle
             drawCircle(
-                arcWidth / 2,
-                widgetHeight,
+                (arcWidth + tenDp) / 2,
+                widgetHeight + fiveDp,
                 dotSize,
                 stickPaint
             )
 
             // stick path
             stickPath.apply {
-                moveTo(
-                    arcWidth / 2,
-                    widgetHeight + dotSize / 2
-                )
-                lineTo(
-                    arcWidth / 2 - stickLength,
-                    widgetHeight + dotSize / 2
-                )
+                var currentX = (arcWidth + tenDp) / 2
+                val currentY = widgetHeight + dotSize / 2 - fiveDp
+                moveTo(currentX, currentY)
+
+                currentX -= stickLength
+
+                lineTo(currentX, currentY)
 
                 arcTo(
-                    (arcWidth / 2 - stickLength - thirtyDp),
-                    (widgetHeight - dotSize / 2),
-                    (arcWidth / 2 - stickLength),
-                    (widgetHeight + dotSize / 2),
-                    90F,
-                    180F,
+                    currentX - tenDp,
+                    currentY,
+                    currentX + stickLength + dotSize,
+                    widgetHeight + dotSize,
+                    -90F,
+                    -180F,
                     false
                 )
 
                 lineTo(
-                    (arcWidth / 2),
-                    (widgetHeight - dotSize / 2)
+                    (arcWidth + tenDp) / 2, widgetHeight + dotSize / 2 + fiveDp
                 )
+
             }
             // Save the current canvas state
             save()
             // Set the pivot point for rotation
             rotate(
                 percent,
-                (arcWidth / 2),
-                (widgetHeight)
+                (arcWidth + tenDp) / 2,
+                widgetHeight + dotSize / 2
             )
             drawPath(stickPath, stickPaint)
             restore()
         }
     }
 
-     fun animateRotation(degrees: Float, duration: Long) {
+    fun animateRotation(degrees: Float, duration: Long) {
         val animator = ValueAnimator.ofFloat(percent, degrees)
         animator.addUpdateListener { valueAnimator ->
             percent = valueAnimator.animatedValue as Float
