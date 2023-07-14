@@ -7,6 +7,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.2] - 2023-08-13
+- Fix score indicator stick not aligned centrally
+
 ## [1.0.1] - 2023-08-10
 - Can now animate in code.
 - Updated documentation for [Readme] file.
