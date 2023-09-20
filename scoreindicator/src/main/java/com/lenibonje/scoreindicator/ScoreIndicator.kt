@@ -139,6 +139,16 @@ class ScoreIndicator(context: Context, attributeSet: AttributeSet?) :
                     percent = score
                 }
 
+                val scaleColorsStr = getString(R.styleable.score_indicator_scaleColors)
+                scaleColorsStr?.let {
+                    val colorStr = it.split(",")
+                    if (colorStr.size == 5){
+                        colorStr.forEachIndexed{index, str ->
+                            segmentColors[index] = Color.parseColor(str)
+                        }
+                    }
+                }
+
                 paint.color = getColor(R.styleable.score_indicator_goodScore, Color.GREEN)
 
                 stickPaint.apply {

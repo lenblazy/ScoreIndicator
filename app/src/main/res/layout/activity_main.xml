@@ -8,8 +8,9 @@
 
     <com.lenibonje.scoreindicator.ScoreIndicator
         android:id="@+id/score_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:scaleColors="#1D5A73,#297DA0,#39B3E5,#75CAED,#9CDAF2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

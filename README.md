@@ -41,18 +41,19 @@ The `ScoreIndicator` can be used immediately after it is created without any add
 - To use it in xml layout
 
 ```xml
-<com.lenibonje.scoreindicator.ScoreIndicator
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:foregroundGravity="center"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:animationDuration="2000"
-    app:animate="true"
-    app:score="150" 
-/>
+
+<com.lenibonje.scoreindicator.ScoreIndicator 
+        android:foregroundGravity="center"
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content"
+        app:animate="true" 
+        app:animationDuration="2000"
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" 
+        app:scaleColors="#1D5A73,#297DA0,#39B3E5,#75CAED,#9CDAF2"
+        app:score="150" />
 ```
 
 - To use it in code, these values are available publicly once you get the view's object instance:
